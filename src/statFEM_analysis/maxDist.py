@@ -8,7 +8,22 @@ import numpy as np
 import ot
 
 def wass(a,b,n_bins):
-    "This function computes an approximation of the 2-Wasserstein distance between two datasets."
+    """This function computes an approximation of the 2-Wasserstein distance between two datasets.
+
+    Parameters
+    ----------
+    a : array
+        dataset
+    b : array
+        dataset
+    n_bins : int
+        controls number of bins used to create the histograms for the dataset.
+
+    Returns
+    -------
+    float
+        estimate of the 2-Wasserstein distance between the two data-sets `a` and `b`
+    """
     # get the range of the data
     a_range = (a.min(), a.max())
     b_range = (b.min(), b.max())

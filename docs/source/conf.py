@@ -23,10 +23,14 @@ extensions = [
     'sphinx.ext.coverage',
     'sphinx.ext.napoleon',
     'sphinx.ext.mathjax',
+    'myst_parser',
+    'sphinxcontrib.bibtex'
 ]
 
 # autodoc_mock_imports = ["dolfin", "numpy", "scipy", "joblib", "multiprocessing"]
-
+bibtex_bibfiles = ['refs.bib']
+bibtex_default_style = 'unsrt'
+bibtex_reference_style = 'author_year'
 templates_path = ['_templates']
 exclude_patterns = []
 

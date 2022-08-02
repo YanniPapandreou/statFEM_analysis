@@ -18,7 +18,20 @@ import multiprocessing
 
 # code to assemble the mean for a given mesh size
 def mean_assembler(h,f_bar):
-    "This function assembles the mean for the statFEM prior for our 1-D problem."
+    """This function assembles the mean for the statFEM prior for our 1-D problem.
+
+    Parameters
+    ----------
+    h : float
+        mesh size h
+    f_bar : FEniCS function/expression/constant
+        mean function for the forcing
+
+    Returns
+    -------
+    FEniCS function
+        mean of the approximate statFEM prior
+    """
     # get size of the grid
     J = int(np.round(1/h))
 
@@ -51,7 +64,24 @@ def mean_assembler(h,f_bar):
 
 # Cell
 def kernMat(k,grid,parallel=True,translation_inv=False):
-    "Function to compute the covariance matrix $K$ corresponding to the covariance kernel $k$ on a grid. This matrix has $ij-$th entry $K_{ij}=k(x_i,x_j)$ where $x_i$ is the $i$-th point of the grid."
+    """Function to compute the covariance matrix :math:`K` corresponding to the covariance kernel :math:`k` on a grid.
+
+    Parameters
+    ----------
+    k : function
+        forcing covariance function
+    grid : array
+        grid on which to evaluate the covariance function
+    parallel : bool, optional
+        specifies whether or not the cov kernel is translation invariant, by default True
+    translation_inv : bool, optional
+        specifies whether or not the cov kernel is translation invariant, by default False
+
+    Returns
+    -------
+    array
+        Covariance matrix K with :math:`ij-`th entry :math:`K_{ij}=k(x_i,x_j)` where :math:`x_i` is the :math:`i`-th point of the grid.
+    """
     # get the length of the grid
     n = len(grid)
     # preallocate an n x n array of zeros to hold the cov matrix
@@ -96,7 +126,20 @@ def kernMat(k,grid,parallel=True,translation_inv=False):
 
 # Cell
 def BigPhiMat(J,grid):
-    "Function to compute the $\Phi$ matrix."
+    """Function to compute the :math:`\Phi` matrix.
+
+    Parameters
+    ----------
+    J : int
+        controls the FE mesh size (:math:`h=1/J`)
+    grid : array
+        grid in the definition of :math:`\Phi`
+
+    Returns
+    -------
+    csr_matrix
+        :math:`\Phi` matrix returned as a sparse csr_matrix.
+    """
     # create the FE mesh and function space
     mesh = UnitIntervalMesh(J)
     V = FunctionSpace(mesh,'Lagrange',1)
@@ -122,8 +165,26 @@ def BigPhiMat(J,grid):
 
 # Cell
 def cov_assembler(J,k_f,grid,parallel,translation_inv):
-    "Function to assemble the approximate FEM covariance matrix on the reference grid."
+    """Function to assemble the approximate FEM covariance matrix on the reference grid.
 
+    Parameters
+    ----------
+    J : int
+        controls the FE mesh size (:math:`h=1/J`)
+    k_f : function
+        the covariance function for the forcing :math:`f`
+    grid : array
+        the reference grid where the FEM cov matrix should be computed on
+    parallel : bool
+        argument indicating whether the intermediate computation of :math:`C_f` should be done in parallel
+    translation_inv : bool
+        argument indicating whether the intermediate computation of :math:`C_f` should be computed assuming `k_f` is translation invariant or not
+
+    Returns
+    -------
+    array
+        approximate FEM covariance matrix on the reference grid
+    """
     # set up mesh and function space
     mesh = UnitIntervalMesh(J)
     V = FunctionSpace(mesh,'Lagrange',1)
@@ -194,7 +255,28 @@ def cov_assembler(J,k_f,grid,parallel,translation_inv):
 
 # Cell
 def m_post(x,m,c,v,Y,B):
-    "This function evalutes the posterior mean at the point $x$."
+    """This function evalutes the posterior mean at the point :math:`x`.
+
+    Parameters
+    ----------
+    x : float
+        point where the posterior mean will be evaluated
+    m : function
+        function which computes the prior mean at a given point y
+    c : function
+        function which returns the vector (c(x,y)) for y in Y (note: c is the prior covariance function)
+    v : array
+        vector of noisy sensor readings
+    Y : array
+        vector of sensor locations
+    B : array
+        the matrix :math:`\epsilon^{2}I+C_Y` to be inverted in order to obtain the posterior
+
+    Returns
+    -------
+    float
+        posterior mean at the point :math:`x`
+    """
     m_vect = np.array([m(y_i) for y_i in Y]).flatten()
     c_vect = c(x).flatten()
 
@@ -206,7 +288,30 @@ def m_post(x,m,c,v,Y,B):
 
 # Cell
 def sample_gp(n_sim,m,k,grid,par=False,trans=True, tol=1e-9):
-    "Function to sample a GP with mean $m$ and cov $k$ on a grid."
+    """Function to sample a GP with mean :math:`m` and cov :math:`k` on a grid.
+
+    Parameters
+    ----------
+    n_sim : int
+        number of trajectories to be sampled
+    m : function
+        mean function for the GP
+    k : function
+        cov function for the GP
+    grid : array
+        grid of points on which to sample the GP
+    par : bool, optional
+        argument indicating whether the computation of the cov matrix should be done in parallel, by default False
+    trans : bool, optional
+        argument indicating whether the computation of the cov matrix should be computed assuming `k` is translation invariant or not, by default True
+    tol : _type_, optional
+        controls the size of the tiny diagonal perturbation added to cov matrix to ensure it is strictly positive definite, by default 1e-9
+
+    Returns
+    -------
+    array
+        array containing `n_sim` samples from a GP with mean :math:`m` and cov :math:`k` evaluated on the grid `grid`
+    """
     # get length of grid
     d = len(grid)
 
@@ -232,8 +337,38 @@ def sample_gp(n_sim,m,k,grid,par=False,trans=True, tol=1e-9):
 
 # Cell
 def gen_sensor(ϵ,m,k,Y,u_quad,grid,par=False,trans=True,tol=1e-9,maxiter=50,require_f=False):
-    "Function to generate noisy sensor observations of the solution u on a sensor grid Y."
+    """Function to generate noisy sensor observations of the solution u on a sensor grid Y.
 
+    Parameters
+    ----------
+    ϵ: float
+        controls the amount of sensor noise
+    m : function
+        mean function for the forcing :math:`f`
+    k : function
+        cov function for the forcing :math:`f`
+    Y : array
+        vector of sensor locations
+    u_quad : function
+        function to accurately compute the solution :math:`u` given a realisation of the forcing :math:`f`
+    grid : array
+        grid where forcing :math:`f` is sampled on
+    par : bool, optional
+        argument indicating whether the computation of the forcing cov matrix should be done in parallel, by default False
+    trans : bool, optional
+        argument indicating whether the computation of the forcing cov matrix should be computed assuming `k` is translation invariant or not, by default True
+    tol : _type_, optional
+        controls the size of the tiny diagonal perturbation added to forcing cov matrix to ensure it is strictly positive definite, by default 1e-9
+    maxiter : int, optional
+        parameter which controls the accuracy of the quadrature used in `u_quad`, by default 50
+    require_f : bool, optional
+        argument indicating whether or not to also return the realisation of the forcing :math:`f`, by default False
+
+    Returns
+    -------
+    tuple or array
+        If `require_f` is set to True returns a tuple of two arrays containing the generated noisy sensor observations and the realisation of the forcing. If `require_f` is set to False returns just the generated noisy sensor observations.
+    """
     # get number of sensors from the sensor grid Y
     s = len(Y)
 
@@ -261,7 +396,8 @@ def gen_sensor(ϵ,m,k,Y,u_quad,grid,par=False,trans=True,tol=1e-9,maxiter=50,req
 
 # Cell
 class MyExpression(UserExpression):
-    "Class to allow users to user their own functions to create a FEniCS UserExpression."
+    """Class to allow users to user their own functions to create a FEniCS UserExpression.
+    """
     def eval(self, value, x):
         value[0] = self.f(x)
     def value_shape(self):
@@ -269,8 +405,26 @@ class MyExpression(UserExpression):
 
 # Cell
 def fem_cov_assembler_post(J,k_f,Y,parallel,translation_inv):
-    "Function to create the matrix $C_{Y,h}$ and the vector function $c^{(h)}$ required for the statFEM posterior mean."
+    """Function to create the matrix :math:`C_{Y,h}` and the vector function :math:`c^{(h)}` required for the statFEM posterior mean.
 
+    Parameters
+    ----------
+    J : int
+        controls the FE mesh size (:math:`h=1/J`)
+    k_f : function
+        the covariance function for the forcing :math:`f`
+    Y : array
+        vector of sensor locations
+    parallel : bool
+        argument indicating whether the computation of the forcing cov mat should be done in parallel
+    translation_inv : bool
+        argument indicating whether the computation of the forcing cov mat should be computed assuming `k_f` is translation invariant or not
+
+    Returns
+    -------
+    tuple
+        returns tuple of matrix :math:`C_{Y,h}` and the vector function :math:`c^{(h)}`
+    """
     # set up mesh and function space
     mesh = UnitIntervalMesh(J)
     V = FunctionSpace(mesh,'Lagrange',1)
@@ -353,8 +507,32 @@ def fem_cov_assembler_post(J,k_f,Y,parallel,translation_inv):
 
 # Cell
 def m_post_fem_assembler(J,f_bar,k_f,ϵ,Y,v_dat,par=False,trans=True):
-    "Function to assemble the statFEM posterior mean function."
+    """Function to assemble the statFEM posterior mean function.
 
+    Parameters
+    ----------
+    J : int
+        controls the FE mesh size (:math:`h=1/J`)
+    f_bar : function
+        the mean function for the forcing :math:`f`
+    k_f : function
+        the covariance function for the forcing :math:`f`
+    ϵ : float
+        controls the amount of sensor noise
+    Y : array
+        vector of sensor locations
+    v_dat : array
+        vector of noisy sensor observations
+    par : bool, optional
+        argument passed to `fem_cov_assembler_post`'s argument `parallel`, by default False
+    trans : bool, optional
+        argument passed to `fem_cov_assembler_post`'s argument `translation_inv`, by default True
+
+    Returns
+    -------
+    function
+        statFEM posterior mean function
+    """
     # get number of sensors
     s = len(Y)
 
@@ -399,7 +577,26 @@ def m_post_fem_assembler(J,f_bar,k_f,ϵ,Y,v_dat,par=False,trans=True):
 
 # Cell
 def c_post(x,y,c,Y,B):
-    "This function evaluates the posterior covariance at $(x,y)$"
+    """This function evaluates the posterior covariance at :math:`(x,y)`
+
+    Parameters
+    ----------
+    x : float
+        one of two points to evaluate the covariance at
+    y : float
+        one of two points to evaluate the covariance at
+    c : function
+        function which returns the prior covariance at any given pair :math:`(x,y)`
+    Y : array
+        vector of sensor locations
+    B : array
+        the matrix :math:`\epsilon^{2}I+C_{Y}` to be inverted in order to obtain the posterior
+
+    Returns
+    -------
+    float
+        posterior covariance evaluated at :math:`(x,y)`
+    """
     # compute vectors c_x and c_y:
     c_x = np.array([c(x,y_i) for y_i in Y])
     c_y = np.array([c(y_i,y) for y_i in Y])
@@ -412,8 +609,28 @@ def c_post(x,y,c,Y,B):
 
 # Cell
 def post_fem_cov_assembler(J,k_f,grid,Y,parallel,translation_inv):
-    "Function which assembles the matrices $Σ_X,Σ_{XY}$, and $Σ_Y$ required for the statFEM posterior covariance."
+    """Function which assembles the matrices :math:`\Sigma_X,\Sigma_{XY}`, and :math:`\Sigma_Y` required for the statFEM posterior covariance.
 
+    Parameters
+    ----------
+    J : int
+        controls the FE mesh size (:math:`h=1/J`)
+    k_f : function
+        the covariance function for the forcing :math:`f`
+    grid : array
+        the fixed reference grid :math:`\{x_{i}\}_{i=1}^{N}` on which to assemble the posterior cov mat
+    Y : array
+        vector of sensor locations
+    parallel : bool
+        argument indicating whether the computation of the forcing cov mat should be done in parallel
+    translation_inv : bool
+        argument indicating whether the computation of the forcing cov mat should be computed assuming `k_f` is translation invariant or not
+
+    Returns
+    -------
+    tuple
+        tuple of the matrices :math:`\Sigma_X,\Sigma_{XY}`, and :math:`\Sigma_Y`
+    """
     # set up mesh and function space
     mesh = UnitIntervalMesh(J)
     V = FunctionSpace(mesh,'Lagrange',1)

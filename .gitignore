@@ -1,0 +1,6 @@
+
+notebooks/.ipynb_checkpoints/
+
+src/statFEM_analysis/.ipynb_checkpoints/
+
+*.pyc

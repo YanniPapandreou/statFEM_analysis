@@ -4,3 +4,11 @@ notebooks/.ipynb_checkpoints/
 src/statFEM_analysis/.ipynb_checkpoints/
 
 *.pyc
+
+docs/build/
+
+statFEM_analysis/statFEM_analysis/.ipynb_checkpoints/
+
+docker-command.txt
+
+setting_ini.txt

@@ -6,7 +6,10 @@ USER root
 
 # ENV OPENBLAS_NUM_THREADS=8
 
-COPY . code/
+COPY ./statFEM_analysis statFEM_analysis/
+COPY setup.cfg .
+COPY pyproject.toml .
+COPY setup.py .
 
 RUN pip3 install --upgrade pip
 
@@ -17,5 +20,4 @@ RUN pip3 install --upgrade --no-cache-dir jupyter jupyterlab
 EXPOSE 8888/tcp
 ENV SHELL /bin/bash
 
-WORKDIR code/
 RUN pip3 install .

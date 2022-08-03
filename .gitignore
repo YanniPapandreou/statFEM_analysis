@@ -14,3 +14,15 @@ docker-command.txt
 setting_ini.txt
 
 scripts/.ipynb_checkpoints/
+
+docs/source/00_oneDim.ipynb
+
+docs/source/01_twoDim.ipynb
+
+docs/source/02_oneDim_prior_results.ipynb
+
+docs/source/03_oneDim_posterior_results.ipynb
+
+docs/source/04_twoDim_prior_results.ipynb
+
+docs/source/06_maxDist.ipynb

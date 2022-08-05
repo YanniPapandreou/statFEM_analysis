@@ -5,8 +5,6 @@
 
 ## Overview
 
-<!-- This repo contains code accompanying our error analysis of the Statistical Finite Element Method (StatFEM) as described in the paper by Girolami et al. [1]. The code accompanies [2]. -->
-
 This repo contains code accompanying our error analysis of the Statistical Finite Element Method (StatFEM) {cite}`Girolami2021`. The code accompanies {cite}`papandreou2021theoretical`.
 
 `oneDim` contains code needed for our 1-D example while `twoDim` contains code needed for our 2-D example. `maxDist` contains required code for our 1-D max example. The other notebooks all contain the relevant code for each experiment.
@@ -46,5 +44,4 @@ Once the Docker image is built and running, you will be in a Docker container ru
   - The Jupyter lab session can then be accessed by opening `http://localhost:8888/lab` in your browser and pasting the token written in the Docker container.
 
 ```{bibliography} refs.bib
-
 ```

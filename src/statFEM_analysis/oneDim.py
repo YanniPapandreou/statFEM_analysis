@@ -310,7 +310,7 @@ def sample_gp(n_sim,m,k,grid,par=False,trans=True, tol=1e-9):
     Returns
     -------
     array
-        array containing `n_sim` samples from a GP with mean :math:`m` and cov :math:`k` evaluated on the grid `grid`
+        array containing `n_sim` samples from a GP with mean :math:`m` and cov :math:`k` evaluated on the grid `grid`. Note: the shape of the resulting array is `len(grid) x n_sim`
     """
     # get length of grid
     d = len(grid)

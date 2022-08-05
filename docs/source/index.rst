@@ -1,7 +1,7 @@
 Welcome to statFEM_analysis's documentation
 ============================================
 
-This is the documentation for code accompanying our error analysis of the Statistical Finite Element Method (StatFEM) :footcite:p:`papandreou2021theoretical`. This code is hosted on GitHub `here <https://github.com/YanniPapandreou/statFEM_analysis>`_ 
+This is the documentation for code accompanying our error analysis of the Statistical Finite Element Method (StatFEM) :footcite:p:`papandreou2021theoretical`. This code is hosted on GitHub `here <https://github.com/YanniPapandreou/statFEM_analysis>`_. 
 
 Instructions for installing and running the code can be found in the ":doc:`README`" section.
 

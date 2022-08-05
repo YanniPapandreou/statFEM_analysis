@@ -7,7 +7,7 @@
 
 This repo contains code accompanying our error analysis of the Statistical Finite Element Method (StatFEM) as described in the paper by Girolami et al. [1]. The code accompanies [2].
 
-The folder `scripts` contains the scripts for the numerical experiments from our paper {cite}`papandreou2021theoretical`.
+The folder `scripts` contains the scripts for the numerical experiments from our paper [2].
 
 ## Installation
 

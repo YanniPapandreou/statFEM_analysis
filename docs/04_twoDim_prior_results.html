@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2-D prior toy example (RBF covariance) &mdash; statFEM_analysis 0.0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="2-D posterior toy example (RBF covariance)" href="05_twoDim_posterior_results.html" />
+    <link rel="prev" title="1-D posterior toy example (RBF covariance)" href="03_oneDim_posterior_results.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> statFEM_analysis
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="README.html">Getting started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="Notebooks.html">Reference Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="00_oneDim.html">Building up tools to analyse a 1-D problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_twoDim.html">Building up tools to analyse a 2-D problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_maxDist.html">Building up tools to compute an approximation of the 2-Wasserstein distance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_oneDim_prior_results.html">1-D prior toy example (RBF covariance)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_oneDim_posterior_results.html">1-D posterior toy example (RBF covariance)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">2-D prior toy example (RBF covariance)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_twoDim_posterior_results.html">2-D posterior toy example (RBF covariance)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07_oneDim_prior_max_results.html">Distribution of maximum for 1-D prior example (RBF covariance)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08_oneDim_posterior_max_results.html">Distribution of maximum for 1-D posterior example (RBF covariance)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scripts.html">Experiments from paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">API Documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">statFEM_analysis</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="Notebooks.html">Reference Documentation</a> &raquo;</li>
+      <li>2-D prior toy example (RBF covariance)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/04_twoDim_prior_results.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="2-D-prior-toy-example-(RBF-covariance)">
+<h1>2-D prior toy example (RBF covariance)<a class="headerlink" href="#2-D-prior-toy-example-(RBF-covariance)" title="Permalink to this headline"></a></h1>
+<blockquote>
+<div><p>Demonstration of prior error bounds for a 2-D toy example</p>
+</div></blockquote>
+<p>In this notebook we will demonstrate the error bounds for the statFEM prior for the toy example introduced in <a class="reference internal" href="01_twoDim.html#2-dimensional-case-(PDE)"><span class="std std-ref">twoDim</span></a>. We first import some required packages.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dolfin</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">set_log_level</span><span class="p">(</span><span class="n">LogLevel</span><span class="o">.</span><span class="n">ERROR</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numba</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span>
+<span class="c1"># import required functions from twoDim</span>
+<span class="kn">from</span> <span class="nn">statFEM_analysis.twoDim</span> <span class="kn">import</span> <span class="n">mean_assembler</span><span class="p">,</span> <span class="n">kernMat</span><span class="p">,</span> <span class="n">cov_assembler</span>
+<span class="kn">from</span> <span class="nn">scipy.linalg</span> <span class="kn">import</span> <span class="n">sqrtm</span>
+<span class="kn">import</span> <span class="nn">sympy</span><span class="p">;</span> <span class="n">sympy</span><span class="o">.</span><span class="n">init_printing</span><span class="p">()</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="c1"># code for displaying matrices nicely</span>
+<span class="k">def</span> <span class="nf">display_matrix</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">m</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<p>Since we do not have ready access to a solution operator for this problem we will utilise a different approach to demonstrate the appropriate rate for the error bounds. This approach involves comparing the statFEM distributions on finer and finer meshes as follows. We first assume we have the following error bound:</p>
+<div class="math notranslate nohighlight">
+\[W(\nu_{\star},\nu_{h})\leq\mathcal{O}(h^{p}) \text{ as } h\rightarrow 0\]</div>
+<p>From this we have:</p>
+<div class="math notranslate nohighlight">
+\[W(\nu_{\star},\nu_{h})=Ch^{p}+\mathcal{O}(h^{p+1})\]</div>
+<p>The triangle inequality then yields:</p>
+<div class="math notranslate nohighlight">
+\[W(\nu_{h},\nu_{h/2})\leq W(\nu_{h},\nu_{\star}) + W(\nu_{\star},\nu_{h/2})\]</div>
+<p>And so with the above we obtain:</p>
+<div class="math notranslate nohighlight">
+\[W(\nu_{h},\nu_{h/2})=Ch^{p}+C(h/2)^{p}+\mathcal{O}(h^{p+1})\]</div>
+<p>Similarly we have:</p>
+<div class="math notranslate nohighlight">
+\[W(\nu_{h/2},\nu_{h/4})=C(h/2)^{p}+C(h/4)^{p}+\mathcal{O}(h^{p+1})\]</div>
+<p>Dividing the two above equations yields:</p>
+<div class="math notranslate nohighlight">
+\[\frac{W(\nu_{h},\nu_{h/2})}{W(\nu_{h/2},\nu_{h/4})}=\frac{Ch^{p}+C(h/2)^{p}+\mathcal{O}(h^{p+1})}{C(h/2)^{p}+C(h/4)^{p}+\mathcal{O}(h^{p+1})}=\frac{1-2^{-p}+\mathcal{O}(h)}{2^{-p}-2^{-2p}+\mathcal{O}(h)}=2^{p}+\mathcal{O}(h)\]</div>
+<p>From which it follows:</p>
+<div class="math notranslate nohighlight">
+\[\operatorname{LR}(h):=\log_{2}\frac{W(\nu_{h},\nu_{h/2})}{W(\nu_{h/2},\nu_{h/4})}=p+\mathcal{O}(h)\]</div>
+<p>Note that this ratio above does not rely on having access to the true prior <span class="math notranslate nohighlight">\(\nu_{\star}\)</span>.</p>
+<p>We will thus compare the errors on a succesively refined mesh and take the base-2 log of the above ratio. We hope to see these logarithms converge to <span class="math notranslate nohighlight">\(p=2\)</span>.</p>
+<p>We now set up the mean and kernel functions for the random forcing term <span class="math notranslate nohighlight">\(f\)</span>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># set up mean and kernel functions</span>
+<span class="n">f_bar</span> <span class="o">=</span> <span class="n">Constant</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+
+<span class="n">l_f</span> <span class="o">=</span> <span class="mf">0.4</span>
+<span class="n">σ_f</span> <span class="o">=</span> <span class="mf">0.1</span>
+
+<span class="nd">@numba</span><span class="o">.</span><span class="n">jit</span>
+<span class="k">def</span> <span class="nf">k_f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">σ_f</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">l_f</span><span class="o">**</span><span class="mi">2</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<p>We now set up a function to get the statFEM prior for a FE mesh size <span class="math notranslate nohighlight">\(h\)</span>, using functions from twoDim.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">fem_prior</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">f_bar</span><span class="p">,</span><span class="n">k_f</span><span class="p">,</span><span class="n">grid</span><span class="p">):</span>
+    <span class="n">J</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">h</span><span class="p">))</span>
+    <span class="n">μ</span> <span class="o">=</span> <span class="n">mean_assembler</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">f_bar</span><span class="p">)</span>
+    <span class="n">Σ</span> <span class="o">=</span> <span class="n">cov_assembler</span><span class="p">(</span><span class="n">J</span><span class="p">,</span><span class="n">k_f</span><span class="p">,</span><span class="n">grid</span><span class="p">,</span><span class="kc">False</span><span class="p">,</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">μ</span><span class="p">,</span><span class="n">Σ</span>
+</pre></div>
+</div>
+</div>
+<p>We now set up a reference grid on which we will compare the covariance matrices.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="mi">41</span>
+<span class="n">x_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">N</span><span class="p">)</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">x_range</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">x_range</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<p>We now set up a function to compare the covariance functions on the reference grid.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">compute_cov_diff</span><span class="p">(</span><span class="n">C1</span><span class="p">,</span><span class="n">C2</span><span class="p">,</span><span class="n">tol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">):</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">C1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">C1_sqrt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">sqrtm</span><span class="p">(</span><span class="n">C1</span><span class="p">))</span>
+    <span class="n">rel_error_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">C1_sqrt</span> <span class="o">@</span> <span class="n">C1_sqrt</span> <span class="o">-</span> <span class="n">C1</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">C1</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">rel_error_1</span> <span class="o">&lt;</span> <span class="n">tol</span>
+
+    <span class="n">C12</span> <span class="o">=</span> <span class="n">C1_sqrt</span> <span class="o">@</span> <span class="n">C2</span> <span class="o">@</span> <span class="n">C1_sqrt</span>
+    <span class="n">C12_sqrt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">sqrtm</span><span class="p">(</span><span class="n">C12</span><span class="p">))</span>
+    <span class="n">rel_error_12</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">C12_sqrt</span> <span class="o">@</span> <span class="n">C12_sqrt</span> <span class="o">-</span> <span class="n">C12</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">C12</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">rel_error_12</span> <span class="o">&lt;</span> <span class="n">tol</span>
+
+    <span class="n">hSq</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
+    <span class="k">return</span> <span class="n">hSq</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">C1</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">C2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">C12_sqrt</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<p>We now set up a function to compute the Wasserstein distance between the statFEM priors.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">W</span><span class="p">(</span><span class="n">μ_1</span><span class="p">,</span><span class="n">μ_2</span><span class="p">,</span><span class="n">Σ_1</span><span class="p">,</span><span class="n">Σ_2</span><span class="p">):</span>
+    <span class="n">mean_error</span> <span class="o">=</span> <span class="n">errornorm</span><span class="p">(</span><span class="n">μ_1</span><span class="p">,</span><span class="n">μ_2</span><span class="p">,</span><span class="s1">&#39;L2&#39;</span><span class="p">)</span>
+    <span class="n">cov_error</span> <span class="o">=</span> <span class="n">compute_cov_diff</span><span class="p">(</span><span class="n">Σ_1</span><span class="p">,</span><span class="n">Σ_2</span><span class="p">)</span>
+    <span class="n">cov_error</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">cov_error</span><span class="p">))</span>
+    <span class="n">error</span> <span class="o">=</span> <span class="n">mean_error</span> <span class="o">+</span> <span class="n">cov_error</span>
+    <span class="k">return</span> <span class="n">error</span>
+</pre></div>
+</div>
+</div>
+<p>In the interests of memory efficiency we will now create a function which will compute the ratios of errors mentioned above by succesively refining the FE mesh.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">refine</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">f_bar</span><span class="p">,</span><span class="n">k_f</span><span class="p">,</span><span class="n">grid</span><span class="p">):</span>
+    <span class="c1"># set up empty lists to hold h-values and errors (this being the ratios)</span>
+    <span class="n">h_range</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># get the statFEM prior for h and h/2</span>
+    <span class="n">μ_1</span><span class="p">,</span> <span class="n">Σ_1</span> <span class="o">=</span> <span class="n">fem_prior</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">f_bar</span><span class="p">,</span><span class="n">k_f</span><span class="p">,</span><span class="n">grid</span><span class="p">)</span>
+    <span class="n">μ_2</span><span class="p">,</span> <span class="n">Σ_2</span> <span class="o">=</span> <span class="n">fem_prior</span><span class="p">(</span><span class="n">h</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">f_bar</span><span class="p">,</span><span class="n">k_f</span><span class="p">,</span><span class="n">grid</span><span class="p">)</span>
+    <span class="c1"># compute the distance between these and store in numerator variable</span>
+    <span class="n">numerator</span> <span class="o">=</span> <span class="n">W</span><span class="p">(</span><span class="n">μ_1</span><span class="p">,</span><span class="n">μ_2</span><span class="p">,</span><span class="n">Σ_1</span><span class="p">,</span><span class="n">Σ_2</span><span class="p">)</span>
+    <span class="c1"># succesively refine the mesh by halving and do this n times</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;inner loop&quot;</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">leave</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="c1"># store mean and cov for h/2 in storage for h</span>
+        <span class="n">μ_1</span><span class="p">,</span> <span class="n">Σ_1</span> <span class="o">=</span> <span class="n">μ_2</span><span class="p">,</span> <span class="n">Σ_2</span>
+        <span class="c1"># in storage for h/2 store mean and cov for h/4</span>
+        <span class="n">μ_2</span><span class="p">,</span> <span class="n">Σ_2</span> <span class="o">=</span> <span class="n">fem_prior</span><span class="p">(</span><span class="n">h</span><span class="o">/</span><span class="mi">4</span><span class="p">,</span><span class="n">f_bar</span><span class="p">,</span><span class="n">k_f</span><span class="p">,</span><span class="n">grid</span><span class="p">)</span>
+        <span class="c1"># compute the distance between the priors for h/2 and h/4</span>
+        <span class="c1"># and store in denominator variable</span>
+        <span class="n">denominator</span> <span class="o">=</span> <span class="n">W</span><span class="p">(</span><span class="n">μ_1</span><span class="p">,</span><span class="n">μ_2</span><span class="p">,</span><span class="n">Σ_1</span><span class="p">,</span><span class="n">Σ_2</span><span class="p">)</span>
+        <span class="c1"># compute the ratio and store in error</span>
+        <span class="n">error</span> <span class="o">=</span> <span class="n">numerator</span><span class="o">/</span><span class="n">denominator</span>
+        <span class="c1"># append the current value of h and the ratio</span>
+        <span class="n">h_range</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+        <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+        <span class="c1"># store denominator in numerator and halve h</span>
+        <span class="n">numerator</span> <span class="o">=</span> <span class="n">denominator</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">h</span><span class="o">/</span><span class="mi">2</span>
+    <span class="c1"># return the list of h-values together with the ratios for these values</span>
+    <span class="k">return</span> <span class="n">h_range</span><span class="p">,</span><span class="n">errors</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title fa fa-exclamation-circle">Note:</p>
+<p>The above function will compute the ratio <span class="math notranslate nohighlight">\(\frac{W(\nu_{h},\nu_{h/2})}{W(\nu_{h/2},\nu_{h/4})}\)</span> for the values <span class="math notranslate nohighlight">\(h,h/2,\cdots,h/2^{n-1}\)</span>.</p>
+</div>
+<p>We now set up a list of starting <span class="math notranslate nohighlight">\(h\)</span> values and number of refinements <span class="math notranslate nohighlight">\(n\)</span> to get a decent number of ratios to approximate <span class="math notranslate nohighlight">\(p\)</span>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_list</span> <span class="o">=</span> <span class="p">[(</span><span class="mf">0.25</span><span class="p">,</span><span class="mi">4</span><span class="p">),(</span><span class="mf">0.2</span><span class="p">,</span><span class="mi">3</span><span class="p">),(</span><span class="mf">0.175</span><span class="p">,</span><span class="mi">3</span><span class="p">),(</span><span class="mf">0.22</span><span class="p">,</span><span class="mi">4</span><span class="p">),(</span><span class="mf">0.176</span><span class="p">,</span><span class="mi">3</span><span class="p">),(</span><span class="mf">0.177</span><span class="p">,</span><span class="mi">3</span><span class="p">),(</span><span class="mf">0.178</span><span class="p">,</span><span class="mi">3</span><span class="p">),(</span><span class="mf">0.179</span><span class="p">,</span><span class="mi">3</span><span class="p">),(</span><span class="mf">0.18</span><span class="p">,</span><span class="mi">3</span><span class="p">),(</span><span class="mf">0.21</span><span class="p">,</span><span class="mi">3</span><span class="p">),(</span><span class="mf">0.215</span><span class="p">,</span><span class="mi">3</span><span class="p">),(</span><span class="mf">0.1</span><span class="p">,</span><span class="mi">2</span><span class="p">),(</span><span class="mf">0.3</span><span class="p">,</span><span class="mi">4</span><span class="p">),(</span><span class="mf">0.31</span><span class="p">,</span><span class="mi">4</span><span class="p">),(</span><span class="mf">0.315</span><span class="p">,</span><span class="mi">4</span><span class="p">),(</span><span class="mf">0.24</span><span class="p">,</span><span class="mi">4</span><span class="p">),(</span><span class="mf">0.245</span><span class="p">,</span><span class="mi">4</span><span class="p">),(</span><span class="mf">0.25</span><span class="p">,</span><span class="mi">4</span><span class="p">),(</span><span class="mf">0.14</span><span class="p">,</span><span class="mi">2</span><span class="p">),(</span><span class="mf">0.16</span><span class="p">,</span><span class="mi">2</span><span class="p">),(</span><span class="mf">0.15</span><span class="p">,</span><span class="mi">2</span><span class="p">),(</span><span class="mf">0.18</span><span class="p">,</span><span class="mi">2</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title fa fa-exclamation-circle">Warning:</p>
+<p>As we are now in 2-D the matrices needed to compute the statFEM prior get very large in size as <span class="math notranslate nohighlight">\(h\)</span> decreases. Due to memory constraints we must thus make sure <span class="math notranslate nohighlight">\(h\)</span> does not get too small.</p>
+</div>
+<p>We now compute the results:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">set_log_level</span><span class="p">(</span><span class="n">LogLevel</span><span class="o">.</span><span class="n">ERROR</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_outer</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">my_list</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="n">h_range</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,(</span><span class="n">h</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">enumerate</span><span class="p">(</span><span class="n">my_list</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;outer&quot;</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">h_range_tmp</span><span class="p">,</span> <span class="n">errors_tmp</span> <span class="o">=</span> <span class="n">refine</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">f_bar</span><span class="p">,</span><span class="n">k_f</span><span class="p">,</span><span class="n">grid</span><span class="p">)</span>
+    <span class="n">h_range</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">h_range_tmp</span><span class="p">)</span>
+    <span class="n">errors</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">errors_tmp</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+outer: 0it [00:00, ?it/s]
+inner loop:   0%|          | 0/4 [00:00&lt;?, ?it/s]
+inner loop:  25%|██▌       | 1/4 [01:47&lt;05:21, 107.30s/it]
+inner loop:  50%|█████     | 2/4 [03:34&lt;03:34, 107.19s/it]
+inner loop:  75%|███████▌  | 3/4 [05:32&lt;01:52, 112.05s/it]
+inner loop: 100%|██████████| 4/4 [10:27&lt;00:00, 184.29s/it]
+outer: 1it [12:15, 735.36s/it]
+inner loop:   0%|          | 0/3 [00:00&lt;?, ?it/s]
+inner loop:  33%|███▎      | 1/3 [01:48&lt;03:37, 108.93s/it]
+inner loop:  67%|██████▋   | 2/3 [03:41&lt;01:51, 111.29s/it]
+inner loop: 100%|██████████| 3/3 [05:49&lt;00:00, 118.89s/it]
+outer: 2it [19:53, 572.34s/it]
+inner loop:   0%|          | 0/3 [00:00&lt;?, ?it/s]
+inner loop:  33%|███▎      | 1/3 [01:51&lt;03:42, 111.11s/it]
+inner loop:  67%|██████▋   | 2/3 [03:55&lt;01:59, 119.13s/it]
+inner loop: 100%|██████████| 3/3 [06:17&lt;00:00, 129.34s/it]
+outer: 3it [28:01, 533.81s/it]
+inner loop:   0%|          | 0/4 [00:00&lt;?, ?it/s]
+inner loop:  25%|██▌       | 1/4 [01:50&lt;05:30, 110.00s/it]
+inner loop:  50%|█████     | 2/4 [03:40&lt;03:40, 110.35s/it]
+inner loop:  75%|███████▌  | 3/4 [05:40&lt;01:54, 114.63s/it]
+inner loop: 100%|██████████| 4/4 [12:40&lt;00:00, 235.19s/it]
+outer: 4it [42:31, 666.49s/it]
+inner loop:   0%|          | 0/3 [00:00&lt;?, ?it/s]
+inner loop:  33%|███▎      | 1/3 [01:50&lt;03:40, 110.29s/it]
+inner loop:  67%|██████▋   | 2/3 [03:42&lt;01:51, 111.64s/it]
+inner loop: 100%|██████████| 3/3 [06:05&lt;00:00, 126.01s/it]
+outer: 5it [50:32, 599.50s/it]
+inner loop:   0%|          | 0/3 [00:00&lt;?, ?it/s]
+inner loop:  33%|███▎      | 1/3 [01:51&lt;03:42, 111.49s/it]
+inner loop:  67%|██████▋   | 2/3 [03:35&lt;01:46, 106.85s/it]
+inner loop: 100%|██████████| 3/3 [05:37&lt;00:00, 114.13s/it]
+outer: 6it [57:58, 547.59s/it]
+inner loop:   0%|          | 0/3 [00:00&lt;?, ?it/s]
+inner loop:  33%|███▎      | 1/3 [01:45&lt;03:31, 105.72s/it]
+inner loop:  67%|██████▋   | 2/3 [03:33&lt;01:46, 106.85s/it]
+inner loop: 100%|██████████| 3/3 [05:38&lt;00:00, 115.16s/it]
+outer: 7it [1:05:22, 513.63s/it]
+inner loop:   0%|          | 0/3 [00:00&lt;?, ?it/s]
+inner loop:  33%|███▎      | 1/3 [01:48&lt;03:37, 108.50s/it]
+inner loop:  67%|██████▋   | 2/3 [03:36&lt;01:48, 108.13s/it]
+inner loop: 100%|██████████| 3/3 [05:46&lt;00:00, 118.31s/it]
+outer: 8it [1:12:54, 494.04s/it]
+inner loop:   0%|          | 0/3 [00:00&lt;?, ?it/s]
+inner loop:  33%|███▎      | 1/3 [01:47&lt;03:35, 107.93s/it]
+inner loop:  67%|██████▋   | 2/3 [03:36&lt;01:48, 108.48s/it]
+inner loop: 100%|██████████| 3/3 [05:45&lt;00:00, 117.62s/it]
+outer: 9it [1:20:27, 481.20s/it]
+inner loop:   0%|          | 0/3 [00:00&lt;?, ?it/s]
+inner loop:  33%|███▎      | 1/3 [01:47&lt;03:35, 107.57s/it]
+inner loop:  67%|██████▋   | 2/3 [03:30&lt;01:44, 104.66s/it]
+inner loop: 100%|██████████| 3/3 [05:22&lt;00:00, 107.93s/it]
+outer: 10it [1:27:38, 465.73s/it]
+inner loop:   0%|          | 0/3 [00:00&lt;?, ?it/s]
+inner loop:  33%|███▎      | 1/3 [01:47&lt;03:34, 107.42s/it]
+inner loop:  67%|██████▋   | 2/3 [03:36&lt;01:48, 108.35s/it]
+inner loop: 100%|██████████| 3/3 [05:31&lt;00:00, 111.46s/it]
+outer: 11it [1:34:52, 455.90s/it]
+inner loop:   0%|          | 0/2 [00:00&lt;?, ?it/s]
+inner loop:  50%|█████     | 1/2 [01:53&lt;01:53, 113.28s/it]
+inner loop: 100%|██████████| 2/2 [04:03&lt;00:00, 123.06s/it]
+outer: 12it [1:40:49, 425.90s/it]
+inner loop:   0%|          | 0/4 [00:00&lt;?, ?it/s]
+inner loop:  25%|██▌       | 1/4 [01:52&lt;05:38, 112.92s/it]
+inner loop:  50%|█████     | 2/4 [03:46&lt;03:46, 113.44s/it]
+inner loop:  75%|███████▌  | 3/4 [05:45&lt;01:55, 115.66s/it]
+inner loop: 100%|██████████| 4/4 [08:50&lt;00:00, 143.07s/it]
+outer: 13it [1:51:29, 490.56s/it]
+inner loop:   0%|          | 0/4 [00:00&lt;?, ?it/s]
+inner loop:  25%|██▌       | 1/4 [01:55&lt;05:46, 115.36s/it]
+inner loop:  50%|█████     | 2/4 [03:52&lt;03:53, 116.62s/it]
+inner loop:  75%|███████▌  | 3/4 [05:55&lt;01:59, 119.46s/it]
+inner loop: 100%|██████████| 4/4 [08:53&lt;00:00, 142.30s/it]
+outer: 14it [2:02:19, 538.73s/it]
+inner loop:   0%|          | 0/4 [00:00&lt;?, ?it/s]
+inner loop:  25%|██▌       | 1/4 [01:50&lt;05:30, 110.06s/it]
+inner loop:  50%|█████     | 2/4 [03:44&lt;03:45, 112.73s/it]
+inner loop:  75%|███████▌  | 3/4 [05:40&lt;01:54, 114.30s/it]
+inner loop: 100%|██████████| 4/4 [08:35&lt;00:00, 137.98s/it]
+outer: 15it [2:12:40, 563.63s/it]
+inner loop:   0%|          | 0/4 [00:00&lt;?, ?it/s]
+inner loop:  25%|██▌       | 1/4 [01:54&lt;05:42, 114.04s/it]
+inner loop:  50%|█████     | 2/4 [03:45&lt;03:45, 112.76s/it]
+inner loop:  75%|███████▌  | 3/4 [05:41&lt;01:54, 114.24s/it]
+inner loop: 100%|██████████| 4/4 [10:20&lt;00:00, 179.00s/it]
+outer: 16it [2:24:54, 614.78s/it]
+inner loop:   0%|          | 0/4 [00:00&lt;?, ?it/s]
+inner loop:  25%|██▌       | 1/4 [01:47&lt;05:22, 107.53s/it]
+inner loop:  50%|█████     | 2/4 [03:34&lt;03:34, 107.43s/it]
+inner loop:  75%|███████▌  | 3/4 [05:29&lt;01:50, 110.69s/it]
+inner loop: 100%|██████████| 4/4 [09:37&lt;00:00, 164.91s/it]
+outer: 17it [2:36:15, 634.89s/it]
+inner loop:   0%|          | 0/4 [00:00&lt;?, ?it/s]
+inner loop:  25%|██▌       | 1/4 [01:49&lt;05:29, 109.90s/it]
+inner loop:  50%|█████     | 2/4 [03:37&lt;03:36, 108.43s/it]
+inner loop:  75%|███████▌  | 3/4 [05:31&lt;01:50, 110.99s/it]
+inner loop: 100%|██████████| 4/4 [09:27&lt;00:00, 160.23s/it]
+outer: 18it [2:47:28, 646.31s/it]
+inner loop:   0%|          | 0/2 [00:00&lt;?, ?it/s]
+inner loop:  50%|█████     | 1/2 [01:44&lt;01:44, 104.31s/it]
+inner loop: 100%|██████████| 2/2 [03:36&lt;00:00, 109.13s/it]
+outer: 19it [2:52:50, 548.82s/it]
+inner loop:   0%|          | 0/2 [00:00&lt;?, ?it/s]
+inner loop:  50%|█████     | 1/2 [01:47&lt;01:47, 107.43s/it]
+inner loop: 100%|██████████| 2/2 [03:50&lt;00:00, 116.67s/it]
+outer: 20it [2:58:32, 486.83s/it]
+inner loop:   0%|          | 0/2 [00:00&lt;?, ?it/s]
+inner loop:  50%|█████     | 1/2 [01:55&lt;01:55, 115.98s/it]
+inner loop: 100%|██████████| 2/2 [03:51&lt;00:00, 115.75s/it]
+outer: 21it [3:04:21, 445.29s/it]
+inner loop:   0%|          | 0/2 [00:00&lt;?, ?it/s]
+inner loop:  50%|█████     | 1/2 [01:59&lt;01:59, 119.45s/it]
+inner loop: 100%|██████████| 2/2 [03:59&lt;00:00, 119.97s/it]
+outer: 22it [3:10:17, 518.95s/it]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CPU times: user 3h 7min 41s, sys: 1min 3s, total: 3h 8min 45s
+Wall time: 3h 10min 17s
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+
+</pre></div></div>
+</div>
+<p>We now sort these results by <span class="math notranslate nohighlight">\(h\)</span> and get rid of duplicates (from repeats in <span class="math notranslate nohighlight">\(h\)</span>-values).</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">h_range_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">h_range</span><span class="p">)</span>
+<span class="n">errors_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">argInd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">h_range_array</span><span class="p">)</span>
+<span class="n">hs</span> <span class="o">=</span> <span class="n">h_range_array</span><span class="p">[</span><span class="n">argInd</span><span class="p">]</span>
+<span class="n">es</span> <span class="o">=</span> <span class="n">errors_array</span><span class="p">[</span><span class="n">argInd</span><span class="p">]</span>
+<span class="n">hs</span><span class="p">,</span><span class="n">hs_ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">hs</span><span class="p">,</span><span class="n">return_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">es</span> <span class="o">=</span> <span class="n">es</span><span class="p">[</span><span class="n">hs_ind</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<p>We now plot the base-2 logarithm of the ratios against <span class="math notranslate nohighlight">\(h\)</span> below:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">hs</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">es</span><span class="p">),</span><span class="n">c</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$h$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$\operatorname</span><span class="si">{LR}</span><span class="s1">(h)$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Base-2 log plot of the ratios against $h$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span><span class="n">hs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">hs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">colors</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span><span class="n">linestyles</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">hs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">hs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/04_twoDim_prior_results_29_0.png" src="_images/04_twoDim_prior_results_29_0.png" />
+</div>
+</div>
+<p>We can see from the above plot that the logarithms seems to be approaching <span class="math notranslate nohighlight">\(p=2\)</span> as <span class="math notranslate nohighlight">\(h\)</span> gets small just as predicted. However, the results aren’t that smooth and they haven’t seemed to settle on <span class="math notranslate nohighlight">\(p=2\)</span> yet. This can be due to memory constraints meaning we cannot use small enough <span class="math notranslate nohighlight">\(h\)</span>. We thus smooth the above results by taking a cumulative average of the ratios and then applying <span class="math notranslate nohighlight">\(\log_2\)</span>. We take the rolling average starting with large <span class="math notranslate nohighlight">\(h\)</span>. We choose a cut-off
+point of <span class="math notranslate nohighlight">\(h=0.15\)</span>, i.e. we discard any results for <span class="math notranslate nohighlight">\(h&gt;0.15\)</span>.</p>
+<p>The results are shown below:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># get the cumulative average of es:</span>
+<span class="n">i</span> <span class="o">=</span> <span class="o">-</span><span class="mi">19</span>
+<span class="n">ES</span> <span class="o">=</span> <span class="n">es</span><span class="p">[:</span><span class="n">i</span><span class="p">]</span>
+<span class="n">HS</span> <span class="o">=</span> <span class="n">hs</span><span class="p">[:</span><span class="n">i</span><span class="p">]</span>
+<span class="n">pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">40</span><span class="p">,</span><span class="n">step</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">es_av</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">ES</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">ES</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">es_av</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;log_of_cum_av&#39;</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span><span class="n">HS</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">pos</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">es_av</span><span class="p">),</span><span class="n">colors</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span><span class="n">linestyles</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Base-2 logarithms of the cumulative averages of the ratios for $h\leq 0.15$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;min $h$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;smoothed $\operatorname</span><span class="si">{LR}</span><span class="s1">(h)$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/04_twoDim_prior_results_31_0.png" src="_images/04_twoDim_prior_results_31_0.png" />
+</div>
+</div>
+<p>From the smoothed results above we can see more clearly that the ratios are converging to around <span class="math notranslate nohighlight">\(p=2\)</span>. In fact, discarding the values corresponding to <span class="math notranslate nohighlight">\(h&gt;0.15\)</span> seems to result in the the rolling average converging to a value slightly greater than <span class="math notranslate nohighlight">\(2\)</span>.</p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="03_oneDim_posterior_results.html" class="btn btn-neutral float-left" title="1-D posterior toy example (RBF covariance)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="05_twoDim_posterior_results.html" class="btn btn-neutral float-right" title="2-D posterior toy example (RBF covariance)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Yanni Papandreou.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

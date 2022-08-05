@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>statFEM_analysis package &mdash; statFEM_analysis 0.0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="API Documentation" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> statFEM_analysis
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="README.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Notebooks.html">Reference Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scripts.html">Experiments from paper</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">API Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">statFEM_analysis package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-statFEM_analysis.oneDim">statFEM_analysis.oneDim module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-statFEM_analysis.twoDim">statFEM_analysis.twoDim module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-statFEM_analysis.maxDist">statFEM_analysis.maxDist module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">statFEM_analysis</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="modules.html">API Documentation</a> &raquo;</li>
+      <li>statFEM_analysis package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/statFEM_analysis.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="statfem-analysis-package">
+<h1>statFEM_analysis package<a class="headerlink" href="#statfem-analysis-package" title="Permalink to this headline"></a></h1>
+<section id="module-statFEM_analysis.oneDim">
+<span id="statfem-analysis-onedim-module"></span><h2>statFEM_analysis.oneDim module<a class="headerlink" href="#module-statFEM_analysis.oneDim" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="statFEM_analysis.oneDim.BigPhiMat">
+<span class="sig-prename descclassname"><span class="pre">statFEM_analysis.oneDim.</span></span><span class="sig-name descname"><span class="pre">BigPhiMat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">J</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/statFEM_analysis/oneDim.html#BigPhiMat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statFEM_analysis.oneDim.BigPhiMat" title="Permalink to this definition"></a></dt>
+<dd><p>Function to compute the <span class="math notranslate nohighlight">\(\Phi\)</span> matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>J</strong> (<em>int</em>) – controls the FE mesh size (<span class="math notranslate nohighlight">\(h=1/J\)</span>)</p></li>
+<li><p><strong>grid</strong> (<em>array</em>) – grid in the definition of <span class="math notranslate nohighlight">\(\Phi\)</span></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><span class="math notranslate nohighlight">\(\Phi\)</span> matrix returned as a sparse csr_matrix.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>csr_matrix</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="statFEM_analysis.oneDim.MyExpression">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">statFEM_analysis.oneDim.</span></span><span class="sig-name descname"><span class="pre">MyExpression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/statFEM_analysis/oneDim.html#MyExpression"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statFEM_analysis.oneDim.MyExpression" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">dolfin.function.expression.UserExpression</span></code></p>
+<p>Class to allow users to user their own functions to create a FEniCS UserExpression.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="statFEM_analysis.oneDim.MyExpression.eval">
+<span class="sig-name descname"><span class="pre">eval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/statFEM_analysis/oneDim.html#MyExpression.eval"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statFEM_analysis.oneDim.MyExpression.eval" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statFEM_analysis.oneDim.MyExpression.value_shape">
+<span class="sig-name descname"><span class="pre">value_shape</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/statFEM_analysis/oneDim.html#MyExpression.value_shape"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statFEM_analysis.oneDim.MyExpression.value_shape" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="statFEM_analysis.oneDim.c_post">
+<span class="sig-prename descclassname"><span class="pre">statFEM_analysis.oneDim.</span></span><span class="sig-name descname"><span class="pre">c_post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/statFEM_analysis/oneDim.html#c_post"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statFEM_analysis.oneDim.c_post" title="Permalink to this definition"></a></dt>
+<dd><p>This function evaluates the posterior covariance at <span class="math notranslate nohighlight">\((x,y)\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>float</em>) – one of two points to evaluate the covariance at</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – one of two points to evaluate the covariance at</p></li>
+<li><p><strong>c</strong> (<em>function</em>) – function which returns the prior covariance at any given pair <span class="math notranslate nohighlight">\((x,y)\)</span></p></li>
+<li><p><strong>Y</strong> (<em>array</em>) – vector of sensor locations</p></li>
+<li><p><strong>B</strong> (<em>array</em>) – the matrix <span class="math notranslate nohighlight">\(\epsilon^{2}I+C_{Y}\)</span> to be inverted in order to obtain the posterior</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>posterior covariance evaluated at <span class="math notranslate nohighlight">\((x,y)\)</span></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="statFEM_analysis.oneDim.c_post_fem_assembler">
+<span class="sig-prename descclassname"><span class="pre">statFEM_analysis.oneDim.</span></span><span class="sig-name descname"><span class="pre">c_post_fem_assembler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">J</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ε</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">par</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trans</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/statFEM_analysis/oneDim.html#c_post_fem_assembler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statFEM_analysis.oneDim.c_post_fem_assembler" title="Permalink to this definition"></a></dt>
+<dd><p>Function to assemble the statFEM posterior cov mat on a reference grid specified by grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>J</strong> (<em>int</em>) – controls the FE mesh size (<span class="math notranslate nohighlight">\(h=1/J\)</span>)</p></li>
+<li><p><strong>k_f</strong> (<em>function</em>) – the covariance function for the forcing <span class="math notranslate nohighlight">\(f\)</span></p></li>
+<li><p><strong>grid</strong> (<em>array</em>) – the fixed reference grid <span class="math notranslate nohighlight">\(\{x_{i}\}_{i=1}^{N}\)</span> on which to assemble the posterior cov mat</p></li>
+<li><p><strong>Y</strong> (<em>array</em>) – vector of sensor locations</p></li>
+<li><p><strong>par</strong> (<em>bool</em>) – argument indicating whether the computation of the forcing cov mat should be done in parallel</p></li>
+<li><p><strong>trans</strong> (<em>bool</em>) – argument indicating whether the computation of the forcing cov mat should be computed assuming <cite>k_f</cite> is translation invariant or not</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>statFEM posterior cov matrix evaluated on <cite>grid</cite></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="statFEM_analysis.oneDim.cov_assembler">
+<span class="sig-prename descclassname"><span class="pre">statFEM_analysis.oneDim.</span></span><span class="sig-name descname"><span class="pre">cov_assembler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">J</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parallel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">translation_inv</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/statFEM_analysis/oneDim.html#cov_assembler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statFEM_analysis.oneDim.cov_assembler" title="Permalink to this definition"></a></dt>
+<dd><p>Function to assemble the approximate FEM covariance matrix on the reference grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>J</strong> (<em>int</em>) – controls the FE mesh size (<span class="math notranslate nohighlight">\(h=1/J\)</span>)</p></li>
+<li><p><strong>k_f</strong> (<em>function</em>) – the covariance function for the forcing <span class="math notranslate nohighlight">\(f\)</span></p></li>
+<li><p><strong>grid</strong> (<em>array</em>) – the reference grid where the FEM cov matrix should be computed on</p></li>
+<li><p><strong>parallel</strong> (<em>bool</em>) – argument indicating whether the intermediate computation of <span class="math notranslate nohighlight">\(C_f\)</span> should be done in parallel</p></li>
+<li><p><strong>translation_inv</strong> (<em>bool</em>) – argument indicating whether the intermediate computation of <span class="math notranslate nohighlight">\(C_f\)</span> should be computed assuming <cite>k_f</cite> is translation invariant or not</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>approximate FEM covariance matrix on the reference grid</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="statFEM_analysis.oneDim.fem_cov_assembler_post">
+<span class="sig-prename descclassname"><span class="pre">statFEM_analysis.oneDim.</span></span><span class="sig-name descname"><span class="pre">fem_cov_assembler_post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">J</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parallel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">translation_inv</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/statFEM_analysis/oneDim.html#fem_cov_assembler_post"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statFEM_analysis.oneDim.fem_cov_assembler_post" title="Permalink to this definition"></a></dt>
+<dd><p>Function to create the matrix <span class="math notranslate nohighlight">\(C_{Y,h}\)</span> and the vector function <span class="math notranslate nohighlight">\(c^{(h)}\)</span> required for the statFEM posterior mean.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>J</strong> (<em>int</em>) – controls the FE mesh size (<span class="math notranslate nohighlight">\(h=1/J\)</span>)</p></li>
+<li><p><strong>k_f</strong> (<em>function</em>) – the covariance function for the forcing <span class="math notranslate nohighlight">\(f\)</span></p></li>
+<li><p><strong>Y</strong> (<em>array</em>) – vector of sensor locations</p></li>
+<li><p><strong>parallel</strong> (<em>bool</em>) – argument indicating whether the computation of the forcing cov mat should be done in parallel</p></li>
+<li><p><strong>translation_inv</strong> (<em>bool</em>) – argument indicating whether the computation of the forcing cov mat should be computed assuming <cite>k_f</cite> is translation invariant or not</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>returns tuple of matrix <span class="math notranslate nohighlight">\(C_{Y,h}\)</span> and the vector function <span class="math notranslate nohighlight">\(c^{(h)}\)</span></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="statFEM_analysis.oneDim.gen_sensor">
+<span class="sig-prename descclassname"><span class="pre">statFEM_analysis.oneDim.</span></span><span class="sig-name descname"><span class="pre">gen_sensor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ε</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u_quad</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">par</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-09</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">require_f</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/statFEM_analysis/oneDim.html#gen_sensor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statFEM_analysis.oneDim.gen_sensor" title="Permalink to this definition"></a></dt>
+<dd><p>Function to generate noisy sensor observations of the solution u on a sensor grid Y.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ϵ</strong> (<em>float</em>) – controls the amount of sensor noise</p></li>
+<li><p><strong>m</strong> (<em>function</em>) – mean function for the forcing <span class="math notranslate nohighlight">\(f\)</span></p></li>
+<li><p><strong>k</strong> (<em>function</em>) – cov function for the forcing <span class="math notranslate nohighlight">\(f\)</span></p></li>
+<li><p><strong>Y</strong> (<em>array</em>) – vector of sensor locations</p></li>
+<li><p><strong>u_quad</strong> (<em>function</em>) – function to accurately compute the solution <span class="math notranslate nohighlight">\(u\)</span> given a realisation of the forcing <span class="math notranslate nohighlight">\(f\)</span></p></li>
+<li><p><strong>grid</strong> (<em>array</em>) – grid where forcing <span class="math notranslate nohighlight">\(f\)</span> is sampled on</p></li>
+<li><p><strong>par</strong> (<em>bool</em><em>, </em><em>optional</em>) – argument indicating whether the computation of the forcing cov matrix should be done in parallel, by default False</p></li>
+<li><p><strong>trans</strong> (<em>bool</em><em>, </em><em>optional</em>) – argument indicating whether the computation of the forcing cov matrix should be computed assuming <cite>k</cite> is translation invariant or not, by default True</p></li>
+<li><p><strong>tol</strong> (<em>_type_</em><em>, </em><em>optional</em>) – controls the size of the tiny diagonal perturbation added to forcing cov matrix to ensure it is strictly positive definite, by default 1e-9</p></li>
+<li><p><strong>maxiter</strong> (<em>int</em><em>, </em><em>optional</em>) – parameter which controls the accuracy of the quadrature used in <cite>u_quad</cite>, by default 50</p></li>
+<li><p><strong>require_f</strong> (<em>bool</em><em>, </em><em>optional</em>) – argument indicating whether or not to also return the realisation of the forcing <span class="math notranslate nohighlight">\(f\)</span>, by default False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>If <cite>require_f</cite> is set to True returns a tuple of two arrays containing the generated noisy sensor observations and the realisation of the forcing. If <cite>require_f</cite> is set to False returns just the generated noisy sensor observations.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple or array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="statFEM_analysis.oneDim.kernMat">
+<span class="sig-prename descclassname"><span class="pre">statFEM_analysis.oneDim.</span></span><span class="sig-name descname"><span class="pre">kernMat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parallel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">translation_inv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/statFEM_analysis/oneDim.html#kernMat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statFEM_analysis.oneDim.kernMat" title="Permalink to this definition"></a></dt>
+<dd><p>Function to compute the covariance matrix <span class="math notranslate nohighlight">\(K\)</span> corresponding to the covariance kernel <span class="math notranslate nohighlight">\(k\)</span> on a grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>k</strong> (<em>function</em>) – forcing covariance function</p></li>
+<li><p><strong>grid</strong> (<em>array</em>) – grid on which to evaluate the covariance function</p></li>
+<li><p><strong>parallel</strong> (<em>bool</em><em>, </em><em>optional</em>) – specifies whether or not the cov kernel is translation invariant, by default True</p></li>
+<li><p><strong>translation_inv</strong> (<em>bool</em><em>, </em><em>optional</em>) – specifies whether or not the cov kernel is translation invariant, by default False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Covariance matrix K with <span class="math notranslate nohighlight">\(ij-\)</span> where <span class="math notranslate nohighlight">\(x_i\)</span> is the <span class="math notranslate nohighlight">\(i\)</span>-th point of the grid.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="statFEM_analysis.oneDim.m_post">
+<span class="sig-prename descclassname"><span class="pre">statFEM_analysis.oneDim.</span></span><span class="sig-name descname"><span class="pre">m_post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/statFEM_analysis/oneDim.html#m_post"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statFEM_analysis.oneDim.m_post" title="Permalink to this definition"></a></dt>
+<dd><p>This function evalutes the posterior mean at the point <span class="math notranslate nohighlight">\(x\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>float</em>) – point where the posterior mean will be evaluated</p></li>
+<li><p><strong>m</strong> (<em>function</em>) – function which computes the prior mean at a given point y</p></li>
+<li><p><strong>c</strong> (<em>function</em>) – function which returns the vector (c(x,y)) for y in Y (note: c is the prior covariance function)</p></li>
+<li><p><strong>v</strong> (<em>array</em>) – vector of noisy sensor readings</p></li>
+<li><p><strong>Y</strong> (<em>array</em>) – vector of sensor locations</p></li>
+<li><p><strong>B</strong> (<em>array</em>) – the matrix <span class="math notranslate nohighlight">\(\epsilon^{2}I+C_Y\)</span> to be inverted in order to obtain the posterior</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>posterior mean at the point <span class="math notranslate nohighlight">\(x\)</span></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="statFEM_analysis.oneDim.m_post_fem_assembler">
+<span class="sig-prename descclassname"><span class="pre">statFEM_analysis.oneDim.</span></span><span class="sig-name descname"><span class="pre">m_post_fem_assembler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">J</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f_bar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ε</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_dat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">par</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/statFEM_analysis/oneDim.html#m_post_fem_assembler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statFEM_analysis.oneDim.m_post_fem_assembler" title="Permalink to this definition"></a></dt>
+<dd><p>Function to assemble the statFEM posterior mean function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>J</strong> (<em>int</em>) – controls the FE mesh size (<span class="math notranslate nohighlight">\(h=1/J\)</span>)</p></li>
+<li><p><strong>f_bar</strong> (<em>function</em>) – the mean function for the forcing <span class="math notranslate nohighlight">\(f\)</span></p></li>
+<li><p><strong>k_f</strong> (<em>function</em>) – the covariance function for the forcing <span class="math notranslate nohighlight">\(f\)</span></p></li>
+<li><p><strong>ϵ</strong> (<em>float</em>) – controls the amount of sensor noise</p></li>
+<li><p><strong>Y</strong> (<em>array</em>) – vector of sensor locations</p></li>
+<li><p><strong>v_dat</strong> (<em>array</em>) – vector of noisy sensor observations</p></li>
+<li><p><strong>par</strong> (<em>bool</em><em>, </em><em>optional</em>) – argument passed to <cite>fem_cov_assembler_post</cite>’s argument <cite>parallel</cite>, by default False</p></li>
+<li><p><strong>trans</strong> (<em>bool</em><em>, </em><em>optional</em>) – argument passed to <cite>fem_cov_assembler_post</cite>’s argument <cite>translation_inv</cite>, by default True</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>statFEM posterior mean function</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>function</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="statFEM_analysis.oneDim.mean_assembler">
+<span class="sig-prename descclassname"><span class="pre">statFEM_analysis.oneDim.</span></span><span class="sig-name descname"><span class="pre">mean_assembler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">h</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f_bar</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/statFEM_analysis/oneDim.html#mean_assembler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statFEM_analysis.oneDim.mean_assembler" title="Permalink to this definition"></a></dt>
+<dd><p>This function assembles the mean for the statFEM prior for our 1-D problem.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>h</strong> (<em>float</em>) – mesh size h</p></li>
+<li><p><strong>f_bar</strong> (<em>FEniCS function/expression/constant</em>) – mean function for the forcing</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>mean of the approximate statFEM prior</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>FEniCS function</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="statFEM_analysis.oneDim.post_fem_cov_assembler">
+<span class="sig-prename descclassname"><span class="pre">statFEM_analysis.oneDim.</span></span><span class="sig-name descname"><span class="pre">post_fem_cov_assembler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">J</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parallel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">translation_inv</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/statFEM_analysis/oneDim.html#post_fem_cov_assembler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statFEM_analysis.oneDim.post_fem_cov_assembler" title="Permalink to this definition"></a></dt>
+<dd><p>Function which assembles the matrices <span class="math notranslate nohighlight">\(\Sigma_X,\Sigma_{XY}\)</span>, and <span class="math notranslate nohighlight">\(\Sigma_Y\)</span> required for the statFEM posterior covariance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>J</strong> (<em>int</em>) – controls the FE mesh size (<span class="math notranslate nohighlight">\(h=1/J\)</span>)</p></li>
+<li><p><strong>k_f</strong> (<em>function</em>) – the covariance function for the forcing <span class="math notranslate nohighlight">\(f\)</span></p></li>
+<li><p><strong>grid</strong> (<em>array</em>) – the fixed reference grid <span class="math notranslate nohighlight">\(\{x_{i}\}_{i=1}^{N}\)</span> on which to assemble the posterior cov mat</p></li>
+<li><p><strong>Y</strong> (<em>array</em>) – vector of sensor locations</p></li>
+<li><p><strong>parallel</strong> (<em>bool</em>) – argument indicating whether the computation of the forcing cov mat should be done in parallel</p></li>
+<li><p><strong>translation_inv</strong> (<em>bool</em>) – argument indicating whether the computation of the forcing cov mat should be computed assuming <cite>k_f</cite> is translation invariant or not</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>tuple of the matrices <span class="math notranslate nohighlight">\(\Sigma_X,\Sigma_{XY}\)</span>, and <span class="math notranslate nohighlight">\(\Sigma_Y\)</span></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="statFEM_analysis.oneDim.sample_gp">
+<span class="sig-prename descclassname"><span class="pre">statFEM_analysis.oneDim.</span></span><span class="sig-name descname"><span class="pre">sample_gp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_sim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">par</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-09</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/statFEM_analysis/oneDim.html#sample_gp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statFEM_analysis.oneDim.sample_gp" title="Permalink to this definition"></a></dt>
+<dd><p>Function to sample a GP with mean <span class="math notranslate nohighlight">\(m\)</span> and cov <span class="math notranslate nohighlight">\(k\)</span> on a grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_sim</strong> (<em>int</em>) – number of trajectories to be sampled</p></li>
+<li><p><strong>m</strong> (<em>function</em>) – mean function for the GP</p></li>
+<li><p><strong>k</strong> (<em>function</em>) – cov function for the GP</p></li>
+<li><p><strong>grid</strong> (<em>array</em>) – grid of points on which to sample the GP</p></li>
+<li><p><strong>par</strong> (<em>bool</em><em>, </em><em>optional</em>) – argument indicating whether the computation of the cov matrix should be done in parallel, by default False</p></li>
+<li><p><strong>trans</strong> (<em>bool</em><em>, </em><em>optional</em>) – argument indicating whether the computation of the cov matrix should be computed assuming <cite>k</cite> is translation invariant or not, by default True</p></li>
+<li><p><strong>tol</strong> (<em>_type_</em><em>, </em><em>optional</em>) – controls the size of the tiny diagonal perturbation added to cov matrix to ensure it is strictly positive definite, by default 1e-9</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>array containing <cite>n_sim</cite> samples from a GP with mean <span class="math notranslate nohighlight">\(m\)</span> and cov <span class="math notranslate nohighlight">\(k\)</span> evaluated on the grid <cite>grid</cite></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-statFEM_analysis.twoDim">
+<span id="statfem-analysis-twodim-module"></span><h2>statFEM_analysis.twoDim module<a class="headerlink" href="#module-statFEM_analysis.twoDim" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="statFEM_analysis.twoDim.BigPhiMat">
+<span class="sig-prename descclassname"><span class="pre">statFEM_analysis.twoDim.</span></span><span class="sig-name descname"><span class="pre">BigPhiMat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">J</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/statFEM_analysis/twoDim.html#BigPhiMat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statFEM_analysis.twoDim.BigPhiMat" title="Permalink to this definition"></a></dt>
+<dd><p>Function to compute the <span class="math notranslate nohighlight">\(\Phi\)</span> matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>J</strong> (<em>int</em>) – controls the FE mesh size (<span class="math notranslate nohighlight">\(h=1/J^{2}\)</span>)</p></li>
+<li><p><strong>grid</strong> (<em>array</em>) – grid in the definition of <span class="math notranslate nohighlight">\(\Phi\)</span></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><span class="math notranslate nohighlight">\(\Phi\)</span> matrix returned as a sparse csr_matrix.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>csr_matrix</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="statFEM_analysis.twoDim.MyExpression">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">statFEM_analysis.twoDim.</span></span><span class="sig-name descname"><span class="pre">MyExpression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/statFEM_analysis/twoDim.html#MyExpression"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statFEM_analysis.twoDim.MyExpression" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">dolfin.function.expression.UserExpression</span></code></p>
+<p>Class to allow users to user their own functions to create a FEniCS UserExpression.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="statFEM_analysis.twoDim.MyExpression.eval">
+<span class="sig-name descname"><span class="pre">eval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/statFEM_analysis/twoDim.html#MyExpression.eval"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statFEM_analysis.twoDim.MyExpression.eval" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statFEM_analysis.twoDim.MyExpression.value_shape">
+<span class="sig-name descname"><span class="pre">value_shape</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/statFEM_analysis/twoDim.html#MyExpression.value_shape"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statFEM_analysis.twoDim.MyExpression.value_shape" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="statFEM_analysis.twoDim.c_post">
+<span class="sig-prename descclassname"><span class="pre">statFEM_analysis.twoDim.</span></span><span class="sig-name descname"><span class="pre">c_post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/statFEM_analysis/twoDim.html#c_post"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statFEM_analysis.twoDim.c_post" title="Permalink to this definition"></a></dt>
+<dd><p>This function evaluates the posterior covariance at <span class="math notranslate nohighlight">\((x,y)\)</span></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>float</em>) – one of two points to evaluate the covariance at</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – one of two points to evaluate the covariance at</p></li>
+<li><p><strong>c</strong> (<em>function</em>) – function which returns the prior covariance at any given pair <span class="math notranslate nohighlight">\((x,y)\)</span></p></li>
+<li><p><strong>Y</strong> (<em>array</em>) – vector of sensor locations</p></li>
+<li><p><strong>B</strong> (<em>array</em>) – the matrix <span class="math notranslate nohighlight">\(\epsilon^{2}I+C_{Y}\)</span> to be inverted in order to obtain the posterior</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>posterior covariance evaluated at <span class="math notranslate nohighlight">\((x,y)\)</span></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="statFEM_analysis.twoDim.c_post_fem_assembler">
+<span class="sig-prename descclassname"><span class="pre">statFEM_analysis.twoDim.</span></span><span class="sig-name descname"><span class="pre">c_post_fem_assembler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">J</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ε</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">par</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trans</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/statFEM_analysis/twoDim.html#c_post_fem_assembler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statFEM_analysis.twoDim.c_post_fem_assembler" title="Permalink to this definition"></a></dt>
+<dd><p>Function to assemble the statFEM posterior cov mat on a reference grid specified by grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>J</strong> (<em>int</em>) – controls the FE mesh size (<span class="math notranslate nohighlight">\(h=1/J^{2}\)</span>)</p></li>
+<li><p><strong>k_f</strong> (<em>function</em>) – the covariance function for the forcing <span class="math notranslate nohighlight">\(f\)</span></p></li>
+<li><p><strong>grid</strong> (<em>array</em>) – the fixed reference grid <span class="math notranslate nohighlight">\(\{x_{i}\}_{i=1}^{N}\)</span> on which to assemble the posterior cov mat</p></li>
+<li><p><strong>Y</strong> (<em>array</em>) – vector of sensor locations</p></li>
+<li><p><strong>par</strong> (<em>bool</em>) – argument indicating whether the computation of the forcing cov mat should be done in parallel</p></li>
+<li><p><strong>trans</strong> (<em>bool</em>) – argument indicating whether the computation of the forcing cov mat should be computed assuming <cite>k_f</cite> is translation invariant or not</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>statFEM posterior cov matrix evaluated on <cite>grid</cite></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="statFEM_analysis.twoDim.cov_assembler">
+<span class="sig-prename descclassname"><span class="pre">statFEM_analysis.twoDim.</span></span><span class="sig-name descname"><span class="pre">cov_assembler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">J</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parallel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">translation_inv</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/statFEM_analysis/twoDim.html#cov_assembler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statFEM_analysis.twoDim.cov_assembler" title="Permalink to this definition"></a></dt>
+<dd><p>Function to assemble the approximate FEM covariance matrix on the reference grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>J</strong> (<em>int</em>) – controls the FE mesh size (<span class="math notranslate nohighlight">\(h=1/J^{2}\)</span>)</p></li>
+<li><p><strong>k_f</strong> (<em>function</em>) – the covariance function for the forcing <span class="math notranslate nohighlight">\(f\)</span></p></li>
+<li><p><strong>grid</strong> (<em>array</em>) – the reference grid where the FEM cov matrix should be computed on</p></li>
+<li><p><strong>parallel</strong> (<em>bool</em>) – argument indicating whether the intermediate computation of <span class="math notranslate nohighlight">\(C_f\)</span> should be done in parallel</p></li>
+<li><p><strong>translation_inv</strong> (<em>bool</em>) – argument indicating whether the intermediate computation of <span class="math notranslate nohighlight">\(C_f\)</span> should be computed assuming <cite>k_f</cite> is translation invariant or not</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>approximate FEM covariance matrix on the reference grid</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="statFEM_analysis.twoDim.fem_cov_assembler_post">
+<span class="sig-prename descclassname"><span class="pre">statFEM_analysis.twoDim.</span></span><span class="sig-name descname"><span class="pre">fem_cov_assembler_post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">J</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parallel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">translation_inv</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/statFEM_analysis/twoDim.html#fem_cov_assembler_post"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statFEM_analysis.twoDim.fem_cov_assembler_post" title="Permalink to this definition"></a></dt>
+<dd><p>Function to create the matrix <span class="math notranslate nohighlight">\(C_{Y,h}\)</span> and the vector function <span class="math notranslate nohighlight">\(c^{(h)}\)</span> required for the statFEM posterior mean.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>J</strong> (<em>int</em>) – controls the FE mesh size (<span class="math notranslate nohighlight">\(h=1/J^{2}\)</span>)</p></li>
+<li><p><strong>k_f</strong> (<em>function</em>) – the covariance function for the forcing <span class="math notranslate nohighlight">\(f\)</span></p></li>
+<li><p><strong>Y</strong> (<em>array</em>) – vector of sensor locations</p></li>
+<li><p><strong>parallel</strong> (<em>bool</em>) – argument indicating whether the computation of the forcing cov mat should be done in parallel</p></li>
+<li><p><strong>translation_inv</strong> (<em>bool</em>) – argument indicating whether the computation of the forcing cov mat should be computed assuming <cite>k_f</cite> is translation invariant or not</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>returns tuple of matrix <span class="math notranslate nohighlight">\(C_{Y,h}\)</span> and the vector function <span class="math notranslate nohighlight">\(c^{(h)}\)</span></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="statFEM_analysis.twoDim.gen_sensor">
+<span class="sig-prename descclassname"><span class="pre">statFEM_analysis.twoDim.</span></span><span class="sig-name descname"><span class="pre">gen_sensor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ε</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">J</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">par</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trans</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-09</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">require</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/statFEM_analysis/twoDim.html#gen_sensor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statFEM_analysis.twoDim.gen_sensor" title="Permalink to this definition"></a></dt>
+<dd><p>Function to generate noisy sensor observations of the solution u on a sensor grid Y.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ϵ</strong> (<em>float</em>) – controls the amount of sensor noise</p></li>
+<li><p><strong>m</strong> (<em>function</em>) – mean function for the forcing <span class="math notranslate nohighlight">\(f\)</span></p></li>
+<li><p><strong>k</strong> (<em>function</em>) – cov function for the forcing <span class="math notranslate nohighlight">\(f\)</span></p></li>
+<li><p><strong>Y</strong> (<em>array</em>) – vector of sensor locations</p></li>
+<li><p><strong>J</strong> (<em>int</em>) – controls the FE mesh size (<span class="math notranslate nohighlight">\(h=1/J^{2}\)</span>)</p></li>
+<li><p><strong>par</strong> (<em>bool</em><em>, </em><em>optional</em>) – argument indicating whether the computation of the forcing cov matrix should be done in parallel, by default False</p></li>
+<li><p><strong>trans</strong> (<em>bool</em><em>, </em><em>optional</em>) – argument indicating whether the computation of the forcing cov matrix should be computed assuming <cite>k</cite> is translation invariant or not, by default True</p></li>
+<li><p><strong>tol</strong> (<em>_type_</em><em>, </em><em>optional</em>) – controls the size of the tiny diagonal perturbation added to forcing cov matrix to ensure it is strictly positive definite, by default 1e-9</p></li>
+<li><p><strong>require_f</strong> (<em>bool</em><em>, </em><em>optional</em>) – argument indicating whether or not to also return the realisation of the forcing <span class="math notranslate nohighlight">\(f\)</span>, by default False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>If <cite>require_f</cite> is set to True returns a tuple of two arrays containing the generated noisy sensor observations and the realisation of the forcing. If <cite>require_f</cite> is set to False returns just the generated noisy sensor observations.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple or array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="statFEM_analysis.twoDim.kernMat">
+<span class="sig-prename descclassname"><span class="pre">statFEM_analysis.twoDim.</span></span><span class="sig-name descname"><span class="pre">kernMat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parallel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">translation_inv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/statFEM_analysis/twoDim.html#kernMat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statFEM_analysis.twoDim.kernMat" title="Permalink to this definition"></a></dt>
+<dd><p>Function to compute the covariance matrix <span class="math notranslate nohighlight">\(K\)</span> corresponding to the covariance kernel <span class="math notranslate nohighlight">\(k\)</span> on a grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>k</strong> (<em>function</em>) – forcing covariance function</p></li>
+<li><p><strong>grid</strong> (<em>array</em>) – grid on which to evaluate the covariance function</p></li>
+<li><p><strong>parallel</strong> (<em>bool</em><em>, </em><em>optional</em>) – specifies whether or not the cov kernel is translation invariant, by default True</p></li>
+<li><p><strong>translation_inv</strong> (<em>bool</em><em>, </em><em>optional</em>) – specifies whether or not the cov kernel is translation invariant, by default False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Covariance matrix K with <span class="math notranslate nohighlight">\(ij-\)</span> where <span class="math notranslate nohighlight">\(x_i\)</span> is the <span class="math notranslate nohighlight">\(i\)</span>-th point of the grid.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="statFEM_analysis.twoDim.m_post">
+<span class="sig-prename descclassname"><span class="pre">statFEM_analysis.twoDim.</span></span><span class="sig-name descname"><span class="pre">m_post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/statFEM_analysis/twoDim.html#m_post"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statFEM_analysis.twoDim.m_post" title="Permalink to this definition"></a></dt>
+<dd><p>This function evalutes the posterior mean at the point <span class="math notranslate nohighlight">\(x\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>float</em>) – point where the posterior mean will be evaluated</p></li>
+<li><p><strong>m</strong> (<em>function</em>) – function which computes the prior mean at a given point y</p></li>
+<li><p><strong>c</strong> (<em>function</em>) – function which returns the vector (c(x,y)) for y in Y (note: c is the prior covariance function)</p></li>
+<li><p><strong>v</strong> (<em>array</em>) – vector of noisy sensor readings</p></li>
+<li><p><strong>Y</strong> (<em>array</em>) – vector of sensor locations</p></li>
+<li><p><strong>B</strong> (<em>array</em>) – the matrix <span class="math notranslate nohighlight">\(\epsilon^{2}I+C_Y\)</span> to be inverted in order to obtain the posterior</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>posterior mean at the point <span class="math notranslate nohighlight">\(x\)</span></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="statFEM_analysis.twoDim.m_post_fem_assembler">
+<span class="sig-prename descclassname"><span class="pre">statFEM_analysis.twoDim.</span></span><span class="sig-name descname"><span class="pre">m_post_fem_assembler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">J</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f_bar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ε</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_dat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">par</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/statFEM_analysis/twoDim.html#m_post_fem_assembler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statFEM_analysis.twoDim.m_post_fem_assembler" title="Permalink to this definition"></a></dt>
+<dd><p>Function to assemble the statFEM posterior mean function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>J</strong> (<em>int</em>) – controls the FE mesh size (<span class="math notranslate nohighlight">\(h=1/J^{2}\)</span>)</p></li>
+<li><p><strong>f_bar</strong> (<em>function</em>) – the mean function for the forcing <span class="math notranslate nohighlight">\(f\)</span></p></li>
+<li><p><strong>k_f</strong> (<em>function</em>) – the covariance function for the forcing <span class="math notranslate nohighlight">\(f\)</span></p></li>
+<li><p><strong>ϵ</strong> (<em>float</em>) – controls the amount of sensor noise</p></li>
+<li><p><strong>Y</strong> (<em>array</em>) – vector of sensor locations</p></li>
+<li><p><strong>v_dat</strong> (<em>array</em>) – vector of noisy sensor observations</p></li>
+<li><p><strong>par</strong> (<em>bool</em><em>, </em><em>optional</em>) – argument passed to <cite>fem_cov_assembler_post</cite>’s argument <cite>parallel</cite>, by default False</p></li>
+<li><p><strong>trans</strong> (<em>bool</em><em>, </em><em>optional</em>) – argument passed to <cite>fem_cov_assembler_post</cite>’s argument <cite>translation_inv</cite>, by default True</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>statFEM posterior mean function</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>function</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="statFEM_analysis.twoDim.mean_assembler">
+<span class="sig-prename descclassname"><span class="pre">statFEM_analysis.twoDim.</span></span><span class="sig-name descname"><span class="pre">mean_assembler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">h</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f_bar</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/statFEM_analysis/twoDim.html#mean_assembler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statFEM_analysis.twoDim.mean_assembler" title="Permalink to this definition"></a></dt>
+<dd><p>This function assembles the mean for the statFEM prior for our 1-D problem.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>h</strong> (<em>float</em>) – mesh size h</p></li>
+<li><p><strong>f_bar</strong> (<em>FEniCS function/expression/constant</em>) – mean function for the forcing</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>mean of the approximate statFEM prior</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>FEniCS function</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="statFEM_analysis.twoDim.post_fem_cov_assembler">
+<span class="sig-prename descclassname"><span class="pre">statFEM_analysis.twoDim.</span></span><span class="sig-name descname"><span class="pre">post_fem_cov_assembler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">J</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parallel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">translation_inv</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/statFEM_analysis/twoDim.html#post_fem_cov_assembler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statFEM_analysis.twoDim.post_fem_cov_assembler" title="Permalink to this definition"></a></dt>
+<dd><p>Function which assembles the matrices <span class="math notranslate nohighlight">\(\Sigma_X,\Sigma_{XY}\)</span>, and <span class="math notranslate nohighlight">\(\Sigma_Y\)</span> required for the statFEM posterior covariance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>J</strong> (<em>int</em>) – controls the FE mesh size (<span class="math notranslate nohighlight">\(h=1/J^{2}\)</span>)</p></li>
+<li><p><strong>k_f</strong> (<em>function</em>) – the covariance function for the forcing <span class="math notranslate nohighlight">\(f\)</span></p></li>
+<li><p><strong>grid</strong> (<em>array</em>) – the fixed reference grid <span class="math notranslate nohighlight">\(\{x_{i}\}_{i=1}^{N}\)</span> on which to assemble the posterior cov mat</p></li>
+<li><p><strong>Y</strong> (<em>array</em>) – vector of sensor locations</p></li>
+<li><p><strong>parallel</strong> (<em>bool</em>) – argument indicating whether the computation of the forcing cov mat should be done in parallel</p></li>
+<li><p><strong>translation_inv</strong> (<em>bool</em>) – argument indicating whether the computation of the forcing cov mat should be computed assuming <cite>k_f</cite> is translation invariant or not</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>tuple of the matrices <span class="math notranslate nohighlight">\(\Sigma_X,\Sigma_{XY}\)</span>, and <span class="math notranslate nohighlight">\(\Sigma_Y\)</span></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="statFEM_analysis.twoDim.sample_gp">
+<span class="sig-prename descclassname"><span class="pre">statFEM_analysis.twoDim.</span></span><span class="sig-name descname"><span class="pre">sample_gp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_sim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">par</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trans</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-09</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/statFEM_analysis/twoDim.html#sample_gp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statFEM_analysis.twoDim.sample_gp" title="Permalink to this definition"></a></dt>
+<dd><p>Function to sample a GP with mean <span class="math notranslate nohighlight">\(m\)</span> and cov <span class="math notranslate nohighlight">\(k\)</span> on a grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_sim</strong> (<em>int</em>) – number of trajectories to be sampled</p></li>
+<li><p><strong>m</strong> (<em>function</em>) – mean function for the GP</p></li>
+<li><p><strong>k</strong> (<em>function</em>) – cov function for the GP</p></li>
+<li><p><strong>grid</strong> (<em>array</em>) – grid of points on which to sample the GP</p></li>
+<li><p><strong>par</strong> (<em>bool</em><em>, </em><em>optional</em>) – argument indicating whether the computation of the cov matrix should be done in parallel, by default False</p></li>
+<li><p><strong>trans</strong> (<em>bool</em><em>, </em><em>optional</em>) – argument indicating whether the computation of the cov matrix should be computed assuming <cite>k</cite> is translation invariant or not, by default True</p></li>
+<li><p><strong>tol</strong> (<em>_type_</em><em>, </em><em>optional</em>) – controls the size of the tiny diagonal perturbation added to cov matrix to ensure it is strictly positive definite, by default 1e-9</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>array containing <cite>n_sim</cite> samples from a GP with mean <span class="math notranslate nohighlight">\(m\)</span> and cov <span class="math notranslate nohighlight">\(k\)</span> evaluated on the grid <cite>grid</cite></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-statFEM_analysis.maxDist">
+<span id="statfem-analysis-maxdist-module"></span><h2>statFEM_analysis.maxDist module<a class="headerlink" href="#module-statFEM_analysis.maxDist" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="statFEM_analysis.maxDist.wass">
+<span class="sig-prename descclassname"><span class="pre">statFEM_analysis.maxDist.</span></span><span class="sig-name descname"><span class="pre">wass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_bins</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/statFEM_analysis/maxDist.html#wass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#statFEM_analysis.maxDist.wass" title="Permalink to this definition"></a></dt>
+<dd><p>This function computes an approximation of the 2-Wasserstein distance between two datasets.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> (<em>array</em>) – dataset</p></li>
+<li><p><strong>b</strong> (<em>array</em>) – dataset</p></li>
+<li><p><strong>n_bins</strong> (<em>int</em>) – controls number of bins used to create the histograms for the dataset.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>estimate of the 2-Wasserstein distance between the two data-sets <cite>a</cite> and <cite>b</cite></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="API Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Yanni Papandreou.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1-D max posterior example (Matern-1/2 covariance) &mdash; statFEM_analysis 0.0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API Documentation" href="modules.html" />
+    <link rel="prev" title="1-D max prior example (Matern-1/2 covariance)" href="one_dim_matern_prior_max.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> statFEM_analysis
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="README.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Notebooks.html">Reference Documentation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="scripts.html">Experiments from paper</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="one_dim_matern_prior.html">1-D prior example (Matern-1/2 covariance)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="one_dim_matern_posterior.html">1-D posterior example (Matern-1/2 covariance)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="two_dim_matern_prior.html">2-D prior example (Matern-1/2 covariance)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="two_dim_matern_posterior.html">2-D posterior example (Matern-1/2 covariance)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="one_dim_matern_prior_max.html">1-D max prior example (Matern-1/2 covariance)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">1-D max posterior example (Matern-1/2 covariance)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">API Documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">statFEM_analysis</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="scripts.html">Experiments from paper</a> &raquo;</li>
+      <li>1-D max posterior example (Matern-1/2 covariance)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/one_dim_matern_posterior_max.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="d-max-posterior-example-matern-1-2-covariance">
+<h1>1-D max posterior example (Matern-1/2 covariance)<a class="headerlink" href="#d-max-posterior-example-matern-1-2-covariance" title="Permalink to this headline"></a></h1>
+<p>The script to obtain the posterior results for the maximum example in our paper <a class="footnote-reference brackets" href="#footcite-papandreou2021theoretical" id="id1">1</a> (see Section 4.5) can be found below:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dolfin</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">set_log_level</span><span class="p">(</span><span class="n">LogLevel</span><span class="o">.</span><span class="n">ERROR</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numba</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">integrate</span>
+
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+
+<span class="c1"># import required functions from oneDim</span>
+<span class="kn">from</span> <span class="nn">statFEM_analysis.oneDim</span> <span class="kn">import</span> <span class="n">mean_assembler</span><span class="p">,</span> <span class="n">cov_assembler</span><span class="p">,</span> <span class="n">kernMat</span><span class="p">,</span> <span class="n">m_post</span><span class="p">,</span> <span class="n">gen_sensor</span><span class="p">,</span> <span class="n">MyExpression</span><span class="p">,</span> <span class="n">m_post_fem_assembler</span><span class="p">,</span> <span class="n">c_post</span><span class="p">,</span> <span class="n">c_post_fem_assembler</span><span class="p">,</span> <span class="n">sample_gp</span>
+
+<span class="kn">from</span> <span class="nn">statFEM_analysis.maxDist</span> <span class="kn">import</span> <span class="n">wass</span>
+
+<span class="c1"># set up mean and kernel functions</span>
+<span class="n">σ_f</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">κ</span> <span class="o">=</span> <span class="mi">4</span>
+
+<span class="nd">@numba</span><span class="o">.</span><span class="n">jit</span>
+<span class="k">def</span> <span class="nf">m_f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mf">1.0</span>
+
+<span class="nd">@numba</span><span class="o">.</span><span class="n">jit</span>
+<span class="k">def</span> <span class="nf">c_f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">σ_f</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">κ</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">))</span>
+
+<span class="nd">@numba</span><span class="o">.</span><span class="n">jit</span>
+<span class="k">def</span> <span class="nf">k_f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">σ_f</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">κ</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+<span class="c1"># mean of forcing for use in FEniCS</span>
+<span class="n">f_bar</span> <span class="o">=</span> <span class="n">Constant</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+
+<span class="c1"># true prior solution mean</span>
+<span class="n">μ_true</span> <span class="o">=</span> <span class="n">Expression</span><span class="p">(</span><span class="s1">&#39;0.5*x[0]*(1-x[0])&#39;</span><span class="p">,</span><span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># set up true prior cov function for solution</span>
+<span class="c1"># compute inner integral over t</span>
+<span class="k">def</span> <span class="nf">η</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="n">y</span><span class="p">):</span>
+    <span class="n">I_1</span> <span class="o">=</span> <span class="n">integrate</span><span class="o">.</span><span class="n">quad</span><span class="p">(</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">t</span><span class="o">*</span><span class="n">c_f</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="n">t</span><span class="p">),</span><span class="mf">0.0</span><span class="p">,</span><span class="n">y</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">I_2</span> <span class="o">=</span> <span class="n">integrate</span><span class="o">.</span><span class="n">quad</span><span class="p">(</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">t</span><span class="p">)</span><span class="o">*</span><span class="n">c_f</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="n">t</span><span class="p">),</span><span class="n">y</span><span class="p">,</span><span class="mf">1.0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">*</span><span class="n">I_1</span> <span class="o">+</span> <span class="n">y</span><span class="o">*</span><span class="n">I_2</span>
+
+<span class="c1"># use this function eta and compute the outer integral over w</span>
+<span class="k">def</span> <span class="nf">c_u</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span>
+    <span class="n">I_1</span> <span class="o">=</span> <span class="n">integrate</span><span class="o">.</span><span class="n">quad</span><span class="p">(</span><span class="k">lambda</span> <span class="n">w</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">w</span><span class="p">)</span><span class="o">*</span><span class="n">η</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="n">y</span><span class="p">),</span><span class="n">x</span><span class="p">,</span><span class="mf">1.0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">I_2</span> <span class="o">=</span> <span class="n">integrate</span><span class="o">.</span><span class="n">quad</span><span class="p">(</span><span class="k">lambda</span> <span class="n">w</span><span class="p">:</span> <span class="n">w</span><span class="o">*</span><span class="n">η</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="n">y</span><span class="p">),</span><span class="mf">0.0</span><span class="p">,</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">*</span><span class="n">I_1</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">I_2</span>
+
+<span class="k">def</span> <span class="nf">u_quad</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">maxiter</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
+    <span class="n">I_1</span> <span class="o">=</span> <span class="n">integrate</span><span class="o">.</span><span class="n">quadrature</span><span class="p">(</span><span class="k">lambda</span> <span class="n">w</span><span class="p">:</span> <span class="n">w</span><span class="o">*</span><span class="n">f</span><span class="p">(</span><span class="n">w</span><span class="p">),</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span><span class="n">maxiter</span><span class="o">=</span><span class="n">maxiter</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">I_2</span> <span class="o">=</span> <span class="n">integrate</span><span class="o">.</span><span class="n">quadrature</span><span class="p">(</span><span class="k">lambda</span> <span class="n">w</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">w</span><span class="p">)</span><span class="o">*</span><span class="n">f</span><span class="p">(</span><span class="n">w</span><span class="p">),</span><span class="n">x</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span><span class="n">maxiter</span><span class="o">=</span><span class="n">maxiter</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">I_1</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">I_2</span>
+
+<span class="n">N</span> <span class="o">=</span> <span class="mi">41</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">N</span><span class="p">)</span>
+
+<span class="n">s</span> <span class="o">=</span> <span class="mi">10</span> <span class="c1"># number of sensors</span>
+<span class="c1"># create sensor grid</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.99</span><span class="p">,</span><span class="n">s</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> 
+<span class="c1"># get true prior covariance on sensor grid</span>
+<span class="n">C_true_s</span> <span class="o">=</span> <span class="n">kernMat</span><span class="p">(</span><span class="n">c_u</span><span class="p">,</span><span class="n">Y</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+<span class="c1"># create function to compute vector mentioned above</span>
+<span class="k">def</span> <span class="nf">c_u_vect</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">c_u</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y_i</span><span class="p">)</span> <span class="k">for</span> <span class="n">y_i</span> <span class="ow">in</span> <span class="n">Y</span><span class="p">])</span>
+
+<span class="c1"># set up function to compute fem_prior</span>
+<span class="k">def</span> <span class="nf">fem_prior</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">f_bar</span><span class="p">,</span><span class="n">k_f</span><span class="p">,</span><span class="n">grid</span><span class="p">):</span>
+    <span class="n">J</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">h</span><span class="p">))</span>
+    <span class="n">μ</span> <span class="o">=</span> <span class="n">mean_assembler</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">f_bar</span><span class="p">)</span>
+    <span class="n">Σ</span> <span class="o">=</span> <span class="n">cov_assembler</span><span class="p">(</span><span class="n">J</span><span class="p">,</span><span class="n">k_f</span><span class="p">,</span><span class="n">grid</span><span class="p">,</span><span class="kc">False</span><span class="p">,</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">μ</span><span class="p">,</span><span class="n">Σ</span>
+
+<span class="c1"># set up function to compute statFEM posterior</span>
+<span class="k">def</span> <span class="nf">fem_posterior</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">f_bar</span><span class="p">,</span><span class="n">k_f</span><span class="p">,</span><span class="n">ϵ</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">v_dat</span><span class="p">,</span><span class="n">grid</span><span class="p">):</span>
+    <span class="n">J</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">h</span><span class="p">))</span>
+    <span class="n">m_post_fem</span> <span class="o">=</span> <span class="n">m_post_fem_assembler</span><span class="p">(</span><span class="n">J</span><span class="p">,</span><span class="n">f_bar</span><span class="p">,</span><span class="n">k_f</span><span class="p">,</span><span class="n">ϵ</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">v_dat</span><span class="p">)</span>
+    <span class="n">μ</span> <span class="o">=</span> <span class="n">MyExpression</span><span class="p">()</span>
+    <span class="n">μ</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">m_post_fem</span>
+    <span class="n">Σ</span> <span class="o">=</span> <span class="n">c_post_fem_assembler</span><span class="p">(</span><span class="n">J</span><span class="p">,</span><span class="n">k_f</span><span class="p">,</span><span class="n">grid</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">ϵ</span><span class="p">,</span><span class="kc">False</span><span class="p">,</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">μ</span><span class="p">,</span><span class="n">Σ</span>
+
+<span class="n">ϵ_list</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.0005</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.01</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">statFEM_posterior_sampler</span><span class="p">(</span><span class="n">n_sim</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">f_bar</span><span class="p">,</span> <span class="n">k_f</span><span class="p">,</span> <span class="n">ϵ</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">v_dat</span><span class="p">,</span> <span class="n">par</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">trans</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">tol</span> <span class="o">=</span> <span class="mf">1e-9</span><span class="p">):</span>
+    <span class="c1"># get length of grid</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
+    
+    <span class="c1"># get size of FE mesh</span>
+    <span class="n">J</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">h</span><span class="p">))</span>
+    
+    <span class="c1"># get statFEM posterior mean function</span>
+    <span class="n">m_post_fem</span> <span class="o">=</span> <span class="n">m_post_fem_assembler</span><span class="p">(</span><span class="n">J</span><span class="p">,</span><span class="n">f_bar</span><span class="p">,</span><span class="n">k_f</span><span class="p">,</span><span class="n">ϵ</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">v_dat</span><span class="p">)</span>
+    <span class="n">μ_func</span> <span class="o">=</span> <span class="n">MyExpression</span><span class="p">()</span>
+    <span class="n">μ_func</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">m_post_fem</span>
+    
+    <span class="c1"># evaluate this on the grid</span>
+    <span class="n">μ</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">μ_func</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">grid</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="c1"># get statFEM posterior cov mat on grid</span>
+    <span class="n">Σ</span> <span class="o">=</span> <span class="n">c_post_fem_assembler</span><span class="p">(</span><span class="n">J</span><span class="p">,</span><span class="n">k_f</span><span class="p">,</span><span class="n">grid</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">ϵ</span><span class="p">,</span><span class="kc">False</span><span class="p">,</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="c1"># construct the cholesky decomposition Σ = GG^T</span>
+    <span class="c1"># we add a small diagonal perturbation to Σ to ensure it</span>
+    <span class="c1"># strictly positive definite</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cholesky</span><span class="p">(</span><span class="n">Σ</span> <span class="o">+</span> <span class="n">tol</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">d</span><span class="p">))</span>
+
+    <span class="c1"># draw iid standard normal random vectors</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">n_sim</span><span class="p">))</span>
+
+    <span class="c1"># construct samples from GP(m,k)</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="n">G</span><span class="nd">@Z</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">μ</span><span class="p">,</span><span class="n">n_sim</span><span class="p">)</span>
+
+    <span class="c1"># return the sampled trajectories</span>
+    <span class="k">return</span> <span class="n">Y</span>
+
+<span class="c1"># set up range of h values to use</span>
+<span class="n">h_range_tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.25</span><span class="p">,</span><span class="mf">0.02</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">h_range</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">h_range_tmp</span><span class="p">))</span>
+<span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">h_range</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">345346</span><span class="p">)</span>
+<span class="c1">###################</span>
+<span class="n">n_bins</span> <span class="o">=</span> <span class="mi">150</span>
+<span class="c1">##################</span>
+<span class="n">tol</span> <span class="o">=</span> <span class="mf">1e-10</span>
+<span class="n">n_sim</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="k">for</span> <span class="n">ϵ</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">ϵ_list</span><span class="p">,</span><span class="n">desc</span><span class="o">=</span><span class="s1">&#39;Eps loop&#39;</span><span class="p">):</span>
+    <span class="c1"># generate sensor data</span>
+    <span class="n">v_dat</span> <span class="o">=</span> <span class="n">gen_sensor</span><span class="p">(</span><span class="n">ϵ</span><span class="p">,</span><span class="n">m_f</span><span class="p">,</span><span class="n">k_f</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">u_quad</span><span class="p">,</span><span class="n">grid</span><span class="p">,</span><span class="n">maxiter</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span>
+    <span class="c1"># get true B mat required for posterior</span>
+    <span class="n">B_true</span> <span class="o">=</span> <span class="p">(</span><span class="n">ϵ</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">+</span> <span class="n">C_true_s</span>
+
+    <span class="c1"># set up true posterior mean</span>
+    <span class="k">def</span> <span class="nf">true_mean</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">m_post</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">μ_true</span><span class="p">,</span><span class="n">c_u_vect</span><span class="p">,</span><span class="n">v_dat</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">B_true</span><span class="p">)</span>
+    
+    <span class="c1"># set up true posterior covariance</span>
+    <span class="k">def</span> <span class="nf">c_post_true</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">c_post</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">c_u</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">B_true</span><span class="p">)</span>
+    
+    <span class="n">u_sim</span> <span class="o">=</span> <span class="n">sample_gp</span><span class="p">(</span><span class="n">n_sim</span><span class="p">,</span> <span class="n">true_mean</span><span class="p">,</span> <span class="n">c_post_true</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span><span class="kc">True</span><span class="p">,</span><span class="kc">False</span><span class="p">)</span>
+    
+    <span class="n">max_true</span> <span class="o">=</span> <span class="n">u_sim</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    
+    <span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">h_range</span><span class="p">):</span>
+        <span class="c1"># sample trajectories from statFEM prior for current h value</span>
+        <span class="n">sim</span> <span class="o">=</span> <span class="n">statFEM_posterior_sampler</span><span class="p">(</span><span class="n">n_sim</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">f_bar</span><span class="p">,</span> <span class="n">k_f</span><span class="p">,</span> <span class="n">ϵ</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">v_dat</span><span class="p">)</span>
+        <span class="c1"># get max</span>
+        <span class="n">max_sim</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="c1"># compute error</span>
+        <span class="n">error</span> <span class="o">=</span> <span class="n">wass</span><span class="p">(</span><span class="n">max_true</span><span class="p">,</span><span class="n">max_sim</span><span class="p">,</span><span class="n">n_bins</span><span class="p">)</span>
+        <span class="c1"># append to errors</span>
+        <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+        
+    <span class="n">results</span><span class="p">[</span><span class="n">ϵ</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">errors</span><span class="p">,</span><span class="n">u_sim</span><span class="p">)</span>
+
+<span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;time elapsed: {end - start}&quot;</span><span class="p">)</span>
+
+<span class="n">results</span><span class="p">[</span><span class="s1">&#39;ϵ_list&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ϵ_list</span>
+<span class="n">results</span><span class="p">[</span><span class="s1">&#39;h_range&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">h_range</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;results/oneDim_posterior_max_matern_results&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="docutils container" id="id2">
+<dl class="footnote brackets">
+<dt class="label" id="footcite-papandreou2021theoretical"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>Yanni Papandreou, Jon Cockayne, Mark Girolami, and Andrew B Duncan. Theoretical guarantees for the statistical finite element method. <em>arXiv preprint arXiv:2111.07691</em>, 2021. URL: <a class="reference external" href="https://arxiv.org/abs/2111.07691">https://arxiv.org/abs/2111.07691</a>.</p>
+</dd>
+</dl>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="one_dim_matern_prior_max.html" class="btn btn-neutral float-left" title="1-D max prior example (Matern-1/2 covariance)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="modules.html" class="btn btn-neutral float-right" title="API Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Yanni Papandreou.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

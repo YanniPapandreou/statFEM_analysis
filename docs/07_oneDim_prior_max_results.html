@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Distribution of maximum for 1-D prior example (RBF covariance) &mdash; statFEM_analysis 0.0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Distribution of maximum for 1-D posterior example (RBF covariance)" href="08_oneDim_posterior_max_results.html" />
+    <link rel="prev" title="2-D posterior toy example (RBF covariance)" href="05_twoDim_posterior_results.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> statFEM_analysis
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="README.html">Getting started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="Notebooks.html">Reference Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="00_oneDim.html">Building up tools to analyse a 1-D problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_twoDim.html">Building up tools to analyse a 2-D problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_maxDist.html">Building up tools to compute an approximation of the 2-Wasserstein distance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_oneDim_prior_results.html">1-D prior toy example (RBF covariance)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_oneDim_posterior_results.html">1-D posterior toy example (RBF covariance)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_twoDim_prior_results.html">2-D prior toy example (RBF covariance)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_twoDim_posterior_results.html">2-D posterior toy example (RBF covariance)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Distribution of maximum for 1-D prior example (RBF covariance)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Sampling-from-true-maxiumum-distribution-in-1D">Sampling from true maxiumum distribution in 1D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Sampling-from-statFEM-prior-maxiumum-distribution-in-1D">Sampling from statFEM prior maxiumum distribution in 1D</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="08_oneDim_posterior_max_results.html">Distribution of maximum for 1-D posterior example (RBF covariance)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scripts.html">Experiments from paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">API Documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">statFEM_analysis</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="Notebooks.html">Reference Documentation</a> &raquo;</li>
+      <li>Distribution of maximum for 1-D prior example (RBF covariance)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/07_oneDim_prior_max_results.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="Distribution-of-maximum-for-1-D-prior-example-(RBF-covariance)">
+<h1>Distribution of maximum for 1-D prior example (RBF covariance)<a class="headerlink" href="#Distribution-of-maximum-for-1-D-prior-example-(RBF-covariance)" title="Permalink to this headline"></a></h1>
+<blockquote>
+<div><p>Investigation into the distribution of the maximum for a 1-D toy example.</p>
+</div></blockquote>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dolfin</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numba</span>
+<span class="kn">import</span> <span class="nn">ot</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="c1"># import required functions from oneDim</span>
+<span class="kn">from</span> <span class="nn">statFEM_analysis.oneDim</span> <span class="kn">import</span> <span class="n">mean_assembler</span><span class="p">,</span> <span class="n">kernMat</span><span class="p">,</span> <span class="n">cov_assembler</span><span class="p">,</span> <span class="n">sample_gp</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">linregress</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">integrate</span>
+<span class="kn">from</span> <span class="nn">scipy.linalg</span> <span class="kn">import</span> <span class="n">sqrtm</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span> <span class="nn">sympy</span><span class="p">;</span> <span class="n">sympy</span><span class="o">.</span><span class="n">init_printing</span><span class="p">()</span>
+<span class="c1"># code for displaying matrices nicely</span>
+<span class="k">def</span> <span class="nf">display_matrix</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">m</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<p>Let’s first import the <code class="docutils literal notranslate"><span class="pre">wass</span></code> function created in the sub-module <code class="docutils literal notranslate"><span class="pre">maxDist</span></code>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">statFEM_analysis.maxDist</span> <span class="kn">import</span> <span class="n">wass</span>
+</pre></div>
+</div>
+</div>
+<section id="Sampling-from-true-maxiumum-distribution-in-1D">
+<h2>Sampling from true maxiumum distribution in 1D<a class="headerlink" href="#Sampling-from-true-maxiumum-distribution-in-1D" title="Permalink to this headline"></a></h2>
+<p>We will be interested in the toy example introduced in oneDim, however we will use different values for the parameters in the distribution of <span class="math notranslate nohighlight">\(f\)</span>. To obtain a sample for the maximum from the true prior we must first sample trajectories from the true prior.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># set up true mean</span>
+<span class="nd">@numba</span><span class="o">.</span><span class="n">jit</span>
+<span class="k">def</span> <span class="nf">m_u</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># set up kernel functions for forcing f</span>
+<span class="n">l_f</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="n">σ_f</span> <span class="o">=</span> <span class="mf">0.1</span>
+
+<span class="nd">@numba</span><span class="o">.</span><span class="n">jit</span>
+<span class="k">def</span> <span class="nf">c_f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">σ_f</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">l_f</span><span class="o">**</span><span class="mi">2</span><span class="p">)))</span>
+
+<span class="c1"># translation invariant form of c_f</span>
+<span class="nd">@numba</span><span class="o">.</span><span class="n">jit</span>
+<span class="k">def</span> <span class="nf">k_f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">σ_f</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">l_f</span><span class="o">**</span><span class="mi">2</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># set up true cov function for solution</span>
+<span class="c1"># compute inner integral over t</span>
+<span class="k">def</span> <span class="nf">η</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="n">y</span><span class="p">):</span>
+    <span class="n">I_1</span> <span class="o">=</span> <span class="n">integrate</span><span class="o">.</span><span class="n">quad</span><span class="p">(</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">t</span><span class="o">*</span><span class="n">c_f</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="n">t</span><span class="p">),</span><span class="mf">0.0</span><span class="p">,</span><span class="n">y</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">I_2</span> <span class="o">=</span> <span class="n">integrate</span><span class="o">.</span><span class="n">quad</span><span class="p">(</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">t</span><span class="p">)</span><span class="o">*</span><span class="n">c_f</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="n">t</span><span class="p">),</span><span class="n">y</span><span class="p">,</span><span class="mf">1.0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">*</span><span class="n">I_1</span> <span class="o">+</span> <span class="n">y</span><span class="o">*</span><span class="n">I_2</span>
+
+<span class="c1"># use this function eta and compute the outer integral over w</span>
+<span class="k">def</span> <span class="nf">c_u</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span>
+    <span class="n">I_1</span> <span class="o">=</span> <span class="n">integrate</span><span class="o">.</span><span class="n">quad</span><span class="p">(</span><span class="k">lambda</span> <span class="n">w</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">w</span><span class="p">)</span><span class="o">*</span><span class="n">η</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="n">y</span><span class="p">),</span><span class="n">x</span><span class="p">,</span><span class="mf">1.0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">I_2</span> <span class="o">=</span> <span class="n">integrate</span><span class="o">.</span><span class="n">quad</span><span class="p">(</span><span class="k">lambda</span> <span class="n">w</span><span class="p">:</span> <span class="n">w</span><span class="o">*</span><span class="n">η</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="n">y</span><span class="p">),</span><span class="mf">0.0</span><span class="p">,</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">*</span><span class="n">I_1</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">I_2</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="n">n_sim</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">235</span><span class="p">)</span>
+<span class="n">u_sim</span> <span class="o">=</span> <span class="n">sample_gp</span><span class="p">(</span><span class="n">n_sim</span><span class="p">,</span> <span class="n">m_u</span><span class="p">,</span> <span class="n">c_u</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">par</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">trans</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">tol</span> <span class="o">=</span> <span class="mf">1e-8</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CPU times: user 1.24 s, sys: 102 ms, total: 1.34 s
+Wall time: 21.8 s
+</pre></div></div>
+</div>
+<p>We now plot the sampled trajectories from the true prior.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span><span class="n">u_sim</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$x$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$u$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Trajectories from the true prior&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/07_oneDim_prior_max_results_13_0.png" src="_images/07_oneDim_prior_max_results_13_0.png" />
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title fa fa-exclamation-circle">Note:</p>
+<p>The maximum is <strong>not</strong> always located at <span class="math notranslate nohighlight">\(x=0.5\)</span>. We will demonstrate this by plotting the <span class="math notranslate nohighlight">\(\operatorname{argmax}\)</span> for each simulated curve below.</p>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">n_sim</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span><span class="n">grid</span><span class="p">[</span><span class="n">u_sim</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">n_sim</span><span class="p">,</span><span class="n">colors</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span><span class="n">linestyles</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Sample number&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$\operatorname</span><span class="si">{argmax}</span><span class="s1">$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Location of $\operatorname</span><span class="si">{argmax}</span><span class="s1">$ for each simulated curve&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/07_oneDim_prior_max_results_15_0.png" src="_images/07_oneDim_prior_max_results_15_0.png" />
+</div>
+</div>
+<p>Let’s now get the maximum value for each simulated curve and store this in a variable <code class="docutils literal notranslate"><span class="pre">max_true</span></code> for future use. We plot the histogram for these maximum values.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">max_true</span> <span class="o">=</span> <span class="n">u_sim</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">displot</span><span class="p">(</span><span class="n">max_true</span><span class="p">,</span><span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">stat</span><span class="o">=</span><span class="s2">&quot;density&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$\max$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Histogram of maximum for true prior&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/07_oneDim_prior_max_results_18_0.png" src="_images/07_oneDim_prior_max_results_18_0.png" />
+</div>
+</div>
+</section>
+<section id="Sampling-from-statFEM-prior-maxiumum-distribution-in-1D">
+<h2>Sampling from statFEM prior maxiumum distribution in 1D<a class="headerlink" href="#Sampling-from-statFEM-prior-maxiumum-distribution-in-1D" title="Permalink to this headline"></a></h2>
+<p>We now create a function to utilise FEniCS to draw trajectories from the statFEM prior.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># create statFEM sampler function</span>
+<span class="k">def</span> <span class="nf">statFEM_sampler</span><span class="p">(</span><span class="n">n_sim</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">f_bar</span><span class="p">,</span> <span class="n">k_f</span><span class="p">,</span> <span class="n">par</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">trans</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-9</span><span class="p">):</span>
+    <span class="c1"># get length of grid</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
+
+    <span class="c1"># get size of FE mesh</span>
+    <span class="n">J</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">h</span><span class="p">))</span>
+
+    <span class="c1"># get statFEM mean function</span>
+    <span class="n">μ_func</span> <span class="o">=</span> <span class="n">mean_assembler</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">f_bar</span><span class="p">)</span>
+
+    <span class="c1"># evaluate this on the grid</span>
+    <span class="n">μ</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">μ_func</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">grid</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># get statFEM cov mat on grid</span>
+    <span class="n">Σ</span> <span class="o">=</span> <span class="n">cov_assembler</span><span class="p">(</span><span class="n">J</span><span class="p">,</span> <span class="n">k_f</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">parallel</span><span class="o">=</span><span class="n">par</span><span class="p">,</span> <span class="n">translation_inv</span><span class="o">=</span><span class="n">trans</span><span class="p">)</span>
+
+    <span class="c1"># construct the cholesky decomposition Σ = GG^T</span>
+    <span class="c1"># we add a small diagonal perturbation to Σ to ensure it</span>
+    <span class="c1"># strictly positive definite</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cholesky</span><span class="p">(</span><span class="n">Σ</span> <span class="o">+</span> <span class="n">tol</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">d</span><span class="p">))</span>
+
+    <span class="c1"># draw iid standard normal random vectors</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">n_sim</span><span class="p">))</span>
+
+    <span class="c1"># construct samples from GP(m,k)</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="n">G</span><span class="nd">@Z</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">μ</span><span class="p">,</span><span class="n">n_sim</span><span class="p">)</span>
+
+    <span class="c1"># return the sampled trajectories</span>
+    <span class="k">return</span> <span class="n">Y</span>
+</pre></div>
+</div>
+</div>
+<p>Let’s test this function out by using it to obtain samples from the statFEM prior for a particular value of <span class="math notranslate nohighlight">\(h\)</span>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">h</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">f_bar</span> <span class="o">=</span> <span class="n">Constant</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">2123</span><span class="p">)</span>
+<span class="n">u_sim_statFEM</span> <span class="o">=</span> <span class="n">statFEM_sampler</span><span class="p">(</span><span class="n">n_sim</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">f_bar</span><span class="p">,</span> <span class="n">k_f</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Let’s plot the above trajectories.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span><span class="n">u_sim_statFEM</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$x$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$u$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Trajectories from statFEM prior with $h = $ </span><span class="si">%0.1f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">h</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/07_oneDim_prior_max_results_25_0.png" src="_images/07_oneDim_prior_max_results_25_0.png" />
+</div>
+</div>
+<p>Let’s now get the maximum value for each simulated curve and store this in a variable <code class="docutils literal notranslate"><span class="pre">max_statFEM</span></code> for future use. We then plot the histograms for these maximum values together with those from the true prior.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">max_statFEM</span> <span class="o">=</span> <span class="n">u_sim_statFEM</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">max_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;True&#39;</span><span class="p">:</span> <span class="n">max_true</span><span class="p">,</span> <span class="s1">&#39;statFEM&#39;</span><span class="p">:</span> <span class="n">max_statFEM</span><span class="p">})</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">displot</span><span class="p">(</span><span class="n">max_data</span><span class="p">,</span><span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">stat</span><span class="o">=</span><span class="s2">&quot;density&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$\max$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Histograms of maximums for true and statFEM priors&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/07_oneDim_prior_max_results_28_0.png" src="_images/07_oneDim_prior_max_results_28_0.png" />
+</div>
+</div>
+<p>Our <code class="docutils literal notranslate"><span class="pre">wass</span></code> function requires the number of bins to be specified. Let’s investigate how varying this parameter affects the computed distance between the true maximums and our statFEM maximums.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">wass_bin_dat</span> <span class="o">=</span> <span class="p">[</span><span class="n">wass</span><span class="p">(</span><span class="n">max_true</span><span class="p">,</span><span class="n">max_statFEM</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">n_bins</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">n_bins</span><span class="p">,</span><span class="n">wass_bin_dat</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;number of bins&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;2-Wasser distance&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Plot showing how number of bins influences the computed distance&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/07_oneDim_prior_max_results_31_0.png" src="_images/07_oneDim_prior_max_results_31_0.png" />
+</div>
+</div>
+<p>From the plot above we see that the distance flattens after around <span class="math notranslate nohighlight">\(50\)</span> bins. We choose to take <code class="docutils literal notranslate"><span class="pre">n_bins=100</span></code> for the rest of this example.</p>
+<p>We now set up a range of <span class="math notranslate nohighlight">\(h\)</span>-values to use for the statFEM prior.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># set up range of h values to use</span>
+<span class="n">h_range_tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.25</span><span class="p">,</span><span class="mf">0.02</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">h_range</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">h_range_tmp</span><span class="p">))</span>
+<span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">h_range</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([0.25, 0.2 , 0.17, 0.14, 0.12, 0.11, 0.1 , 0.09, 0.08, 0.08, 0.07,
+       0.07, 0.06, 0.06, 0.06, 0.05, 0.05, 0.05, 0.05, 0.04, 0.04, 0.04,
+       0.04, 0.03, 0.03, 0.03, 0.03, 0.02, 0.02, 0.02])
+</pre></div></div>
+</div>
+<p>We now loop over these <span class="math notranslate nohighlight">\(h\)</span>-values, and for each value we simulate maximums from the statFEM prior and then compute the 2-Wasserstein distance between these maximums and those from the true prior.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="c1">###################</span>
+<span class="n">n_bins</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="c1">##################</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">3252</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">h_range</span><span class="p">):</span>
+    <span class="c1"># sample trajectories from statFEM prior for current h value</span>
+    <span class="n">sim</span> <span class="o">=</span> <span class="n">statFEM_sampler</span><span class="p">(</span><span class="n">n_sim</span><span class="p">,</span><span class="n">grid</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="n">f_bar</span><span class="p">,</span><span class="n">k_f</span><span class="p">)</span>
+    <span class="c1"># get max</span>
+    <span class="n">max_sim</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="c1"># compute error</span>
+    <span class="n">error</span> <span class="o">=</span> <span class="n">wass</span><span class="p">(</span><span class="n">max_true</span><span class="p">,</span><span class="n">max_sim</span><span class="p">,</span><span class="n">n_bins</span><span class="p">)</span>
+    <span class="c1"># append to errors</span>
+    <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|██████████| 30/30 [00:00&lt;00:00, 38.58it/s]
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CPU times: user 777 ms, sys: 6.76 ms, total: 784 ms
+Wall time: 781 ms
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+
+</pre></div></div>
+</div>
+<p>Let’s now plot these errors against <span class="math notranslate nohighlight">\(h\)</span>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">errors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">h_range</span><span class="p">,</span><span class="n">errors</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;h&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Plot of errors vs h for max&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/07_oneDim_prior_max_results_39_0.png" src="_images/07_oneDim_prior_max_results_39_0.png" />
+</div>
+</div>
+<p>We see that as <span class="math notranslate nohighlight">\(h\)</span> decreases so too does the distance/error. Let’s investigate the rate by plotting this data in log-log space and then estimating the slope of the line of best fit.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">log_h_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">h_range</span><span class="p">)</span>
+<span class="n">log_errors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
+
+<span class="c1"># perform linear regression to get line of best fit for the log scales:</span>
+<span class="n">lm</span> <span class="o">=</span> <span class="n">linregress</span><span class="p">(</span><span class="n">log_h_range</span><span class="p">,</span><span class="n">log_errors</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;slope: </span><span class="si">%f</span><span class="s2">    intercept: </span><span class="si">%f</span><span class="s2">    r value: </span><span class="si">%f</span><span class="s2">     p value: </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">lm</span><span class="o">.</span><span class="n">slope</span><span class="p">,</span> <span class="n">lm</span><span class="o">.</span><span class="n">intercept</span><span class="p">,</span> <span class="n">lm</span><span class="o">.</span><span class="n">rvalue</span><span class="p">,</span> <span class="n">lm</span><span class="o">.</span><span class="n">pvalue</span><span class="p">))</span>
+
+<span class="c1"># plot line of best fit with the data:</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">log_h_range</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">log_h_range</span><span class="p">),</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">log_h_range</span><span class="p">,</span><span class="n">log_errors</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">lm</span><span class="o">.</span><span class="n">intercept</span> <span class="o">+</span> <span class="n">lm</span><span class="o">.</span><span class="n">slope</span> <span class="o">*</span> <span class="n">x</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;fitted line&#39;</span><span class="p">)</span>
+<span class="c1"># plt.plot(x,2+2*x,&#39;--&#39;,c=&#39;black&#39;,label=&#39;reference line, $p=2$&#39;)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="o">+</span><span class="mf">1.35</span><span class="o">*</span><span class="n">x</span><span class="p">,</span><span class="s1">&#39;--&#39;</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;reference line, $p=1.35$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$\log(h)$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$\log(W)$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Plot of $\log(W)$ vs $\log(h)$ for maximum&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+slope: 1.346020    intercept: -3.028927    r value: 0.971118     p value: 0.000000
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/07_oneDim_prior_max_results_41_1.png" src="_images/07_oneDim_prior_max_results_41_1.png" />
+</div>
+</div>
+<p>We can see from the above plot that the slope is around <span class="math notranslate nohighlight">\(1.35\)</span> - this differs from our theory showing the results for the <span class="math notranslate nohighlight">\(\max\)</span> are out of the remit of our theory.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="05_twoDim_posterior_results.html" class="btn btn-neutral float-left" title="2-D posterior toy example (RBF covariance)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="08_oneDim_posterior_max_results.html" class="btn btn-neutral float-right" title="Distribution of maximum for 1-D posterior example (RBF covariance)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Yanni Papandreou.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

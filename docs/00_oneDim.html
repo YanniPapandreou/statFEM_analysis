@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Building up tools to analyse a 1-D problem &mdash; statFEM_analysis 0.0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Building up tools to analyse a 2-D problem" href="01_twoDim.html" />
+    <link rel="prev" title="Reference Documentation" href="Notebooks.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> statFEM_analysis
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="README.html">Getting started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="Notebooks.html">Reference Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Building up tools to analyse a 1-D problem</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#1-dimensional-case-(ODE)">1 dimensional case (ODE)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Variational-formulation">Variational formulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Difference-between-true-prior-mean-and-statFEM-prior-mean">Difference between true prior mean and statFEM prior mean</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Difference-between-true-prior-covariance-and-statFEM-prior-covariance">Difference between true prior covariance and statFEM prior covariance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Posterior-from-incorporating-sensor-readings">Posterior from incorporating sensor readings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Posterior-mean">Posterior mean</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Difference-between-posterior-means">Difference between posterior means</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Posterior-covariance">Posterior covariance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Difference-between-posterior-covariances">Difference between posterior covariances</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="01_twoDim.html">Building up tools to analyse a 2-D problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_maxDist.html">Building up tools to compute an approximation of the 2-Wasserstein distance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_oneDim_prior_results.html">1-D prior toy example (RBF covariance)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_oneDim_posterior_results.html">1-D posterior toy example (RBF covariance)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_twoDim_prior_results.html">2-D prior toy example (RBF covariance)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_twoDim_posterior_results.html">2-D posterior toy example (RBF covariance)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="07_oneDim_prior_max_results.html">Distribution of maximum for 1-D prior example (RBF covariance)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="08_oneDim_posterior_max_results.html">Distribution of maximum for 1-D posterior example (RBF covariance)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scripts.html">Experiments from paper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">API Documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">statFEM_analysis</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="Notebooks.html">Reference Documentation</a> &raquo;</li>
+      <li>Building up tools to analyse a 1-D problem</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/00_oneDim.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="Building-up-tools-to-analyse-a-1-D-problem">
+<h1>Building up tools to analyse a 1-D problem<a class="headerlink" href="#Building-up-tools-to-analyse-a-1-D-problem" title="Permalink to this headline"></a></h1>
+<blockquote>
+<div><p>Code for a 1-D problem.</p>
+</div></blockquote>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dolfin</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">interp1d</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.cm</span> <span class="k">as</span> <span class="nn">cm</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">sympy</span><span class="p">;</span> <span class="n">sympy</span><span class="o">.</span><span class="n">init_printing</span><span class="p">()</span>
+<span class="c1"># code for displaying matrices nicely</span>
+<span class="k">def</span> <span class="nf">display_matrix</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">m</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<section id="1-dimensional-case-(ODE)">
+<h2>1 dimensional case (ODE)<a class="headerlink" href="#1-dimensional-case-(ODE)" title="Permalink to this headline"></a></h2>
+<p>We consider the following 1-D problem:</p>
+<div class="math notranslate nohighlight">
+\[-\frac{d}{dx}\left(p(x)\frac{du(x)}{dx}\right)=f(x) \hspace{0.5cm}\forall x\in[0,1]\]</div>
+<div class="math notranslate nohighlight">
+\[u(0)=u(1)=0\]</div>
+<p>where here <span class="math notranslate nohighlight">\(f\)</span> is a random forcing term, assumed to be a GP in this work.</p>
+<section id="Variational-formulation">
+<h3>Variational formulation<a class="headerlink" href="#Variational-formulation" title="Permalink to this headline"></a></h3>
+<p>The variational formulation is given by:</p>
+<div class="math notranslate nohighlight">
+\[a(u,v)=L(v)\]</div>
+<p>where:</p>
+<div class="math notranslate nohighlight">
+\[a(u,v)=\int_{0}^{1}pu^{\prime}v^{\prime}dx\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[L(v)=\int_{0}^{1}fvdx\]</div>
+<p>We will make the following choices for <span class="math notranslate nohighlight">\(p,f\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[p(x)=1\]</div>
+<div class="math notranslate nohighlight">
+\[f\sim\mathcal{G}\mathcal{P}(\bar{f},k_{f})\]</div>
+<div class="math notranslate nohighlight">
+\[\bar{f}(x)=1\]</div>
+<div class="math notranslate nohighlight">
+\[k_{f}(x,y) = \sigma_f^{2}\exp\left(-\frac{|x-y|^2}{2l_f^2}\right)\]</div>
+<div class="math notranslate nohighlight">
+\[\sigma_{f} = 0.1\]</div>
+<div class="math notranslate nohighlight">
+\[l_f = 0.4\]</div>
+</section>
+<section id="Difference-between-true-prior-mean-and-statFEM-prior-mean">
+<h3>Difference between true prior mean and statFEM prior mean<a class="headerlink" href="#Difference-between-true-prior-mean-and-statFEM-prior-mean" title="Permalink to this headline"></a></h3>
+<p>Since the mean of <span class="math notranslate nohighlight">\(f\)</span> is <span class="math notranslate nohighlight">\(\bar{f}(x)=1\)</span> we have that the true mean of the solution <span class="math notranslate nohighlight">\(u\)</span> is the solution of the ODE with forcing term set to the constant function 1. This has the exact analytic solution:</p>
+<div class="math notranslate nohighlight">
+\[u(x)=\frac{1}{2}x(1-x)\]</div>
+<p>as can be directly verified.</p>
+<p>The FEM approximation to the solution distribution has mean <span class="math notranslate nohighlight">\(\boldsymbol{\Phi}(x)^{*}A^{-1}\bar{F}\)</span> which is the solution to the approximate variational problem obtained by replacing <span class="math notranslate nohighlight">\(f\)</span> with <span class="math notranslate nohighlight">\(\bar{f}\)</span> in the linear form <span class="math notranslate nohighlight">\(L\)</span>.</p>
+<p>We will utilise FEniCS to compute the error between these two as a function of <span class="math notranslate nohighlight">\(h\)</span> the mesh size. To do this we first create a function <a class="reference internal" href="statFEM_analysis.html#statFEM_analysis.oneDim.mean_assembler"><span class="std std-ref">mean_assembler()</span></a> which will assemble the mean for the statFEM prior.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">statFEM_analysis.oneDim</span> <span class="kn">import</span> <span class="n">mean_assembler</span>
+</pre></div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">mean_assembler</span></code> takes in the mesh size <code class="docutils literal notranslate"><span class="pre">h</span></code> and the mean function <code class="docutils literal notranslate"><span class="pre">f_bar</span></code> for the forcing and computes the mean of the approximate statFEM prior, returning this as a FEniCS function.</p>
+<div class="admonition warning">
+<p class="admonition-title fa fa-exclamation-circle">Important:</p>
+<p><code class="docutils literal notranslate"><span class="pre">mean_assembler</span></code> requires <code class="docutils literal notranslate"><span class="pre">f_bar</span></code> to be represented as a FEniCS function/expression/constant.</p>
+</div>
+<p>Let’s check that this is working:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">h</span> <span class="o">=</span> <span class="mf">0.15</span>
+<span class="n">f_bar</span> <span class="o">=</span> <span class="n">Constant</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">μ</span> <span class="o">=</span> <span class="n">mean_assembler</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">f_bar</span><span class="p">)</span>
+<span class="n">μ</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Coefficient(FunctionSpace(Mesh(VectorElement(FiniteElement(&#39;Lagrange&#39;, interval, 1), dim=1), 1), FiniteElement(&#39;Lagrange&#39;, interval, 1)), 9)
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># check the type of μ</span>
+<span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="n">μ</span><span class="p">)</span> <span class="o">==</span> <span class="n">function</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">Function</span>
+</pre></div>
+</div>
+</div>
+<p>As explained above the true mean is the function <span class="math notranslate nohighlight">\(u(x)=\frac{1}{2}x(1-x)\)</span>. Let’s check that the approximate mean resembles this by plotting both:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># use FEniCS to plot μ</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">μ_true</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">x</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">μ_true</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;true mean&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">μ</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;FEM approximation&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$x$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/00_oneDim_14_0.png" src="_images/00_oneDim_14_0.png" />
+</div>
+</div>
+<p>We can see that the FEM approximation does indeed resemble the true mean!</p>
+</section>
+<section id="Difference-between-true-prior-covariance-and-statFEM-prior-covariance">
+<h3>Difference between true prior covariance and statFEM prior covariance<a class="headerlink" href="#Difference-between-true-prior-covariance-and-statFEM-prior-covariance" title="Permalink to this headline"></a></h3>
+<p>The solution <span class="math notranslate nohighlight">\(u\)</span> has covariance function <span class="math notranslate nohighlight">\(c_u(x,y)\)</span> given by the following expression:</p>
+<div class="math notranslate nohighlight">
+\[c_u(x,y)=\int_{0}^{1}\int_{0}^{1}G(x,w)k_f(w,t)G(t,y)dtdw\]</div>
+<p>Where <span class="math notranslate nohighlight">\(G(x,y)\)</span> is the Green’s function for our problem:</p>
+<div class="math notranslate nohighlight">
+\[G(x,y) = x(1-y)\Theta(y-x) + (1-x)y\Theta(x-y) \quad \forall x,y\in[0,1]\]</div>
+<p>(note: <span class="math notranslate nohighlight">\(\Theta(x)\)</span> is the Heaviside Step function)</p>
+<p>The statFEM covariance can be approximated as follows:</p>
+<div class="math notranslate nohighlight">
+\[c_u^{\text{FEM}}(x,y)\approx\sum_{i,j=1}^{J}\varphi_{i}(x)Q_{ij}\varphi_{j}(y)\]</div>
+<p>where <span class="math notranslate nohighlight">\(Q=A^{-1}MC_{f}M^{T}A^{-T}\)</span> and where the <span class="math notranslate nohighlight">\(\{\varphi_{i}\}_{i=1}^{J}\)</span> are the FE basis functions corresponding to the interior nodes of our domain. <span class="math notranslate nohighlight">\(C_f\)</span> is the kernel matrix of <span class="math notranslate nohighlight">\(f\)</span> (evaluated on the FEM grid).</p>
+<p>The difference between the covariance operators we are interested in computing is the following contribution to the 2-Wasserstein distance between the true solution GP and the approximate FEM GP:</p>
+<div class="math notranslate nohighlight">
+\[d_W(C_1,C_2) = \operatorname{tr} C_1 +\operatorname{tr} C_2-2\operatorname{tr}\sqrt{C_{1}^{1/2}C_{2}C_{1}^{1/2}}\]</div>
+<p>where <span class="math notranslate nohighlight">\(C_1, C_2\)</span> are the covariance operators corresponding to <span class="math notranslate nohighlight">\(c_u\)</span> and <span class="math notranslate nohighlight">\(c_u^{\text{FEM}}\)</span> respectively.</p>
+<p>The above quantity will be approximated by fixing a fine grid and computing the cov matrices <span class="math notranslate nohighlight">\(\Sigma_1, \Sigma_2\)</span> for the cov operators <span class="math notranslate nohighlight">\(C_1, C_2\)</span>, respectively, on this grid. We will then utilise the approximation:</p>
+<p><span class="math notranslate nohighlight">\(d_W(C_1,C_2)\approx \operatorname{tr} \Sigma_1 +\operatorname{tr} \Sigma_2-2\operatorname{tr}\sqrt{\Sigma_{1}^{1/2}\Sigma_{2}\Sigma_{1}^{1/2}}\)</span></p>
+<p>Thus, it will be necessary to write code to form the matrices <span class="math notranslate nohighlight">\(\Sigma_1,\Sigma_2\)</span> above. The structure of the approximate <span class="math notranslate nohighlight">\(c_u^{\text{FEM}}\)</span> will allow us to compute <span class="math notranslate nohighlight">\(\Sigma_2\)</span> in a very efficient manner using FEniCS. This is achieved by noting that we can write:</p>
+<div class="math notranslate nohighlight">
+\[c_u^{\text{FEM}}(x,y)\approx\boldsymbol{\phi}(x)^{T}Q\boldsymbol{\phi}(y)\]</div>
+<p>where <span class="math notranslate nohighlight">\(\boldsymbol{\phi}(x):=\left(\varphi_1(x),\cdots,\varphi_J(x)\right)^{T}\)</span></p>
+<p>Written in this form, it is now easy to see that <span class="math notranslate nohighlight">\(\Sigma_2\)</span>, whose <span class="math notranslate nohighlight">\(ij\)</span>-th entry is given by <span class="math notranslate nohighlight">\((\Sigma_2)_{ij}=\boldsymbol{\phi}(x_i)^{T}Q\boldsymbol{\phi}(x_j)\)</span>, can be expressed as follows:</p>
+<div class="math notranslate nohighlight">
+\[\Sigma_2=\boldsymbol{\Phi}^{T}Q\boldsymbol{\Phi}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\boldsymbol{\Phi}\)</span> is a <span class="math notranslate nohighlight">\(J\times N\)</span> matrix whose <span class="math notranslate nohighlight">\(i\)</span>th column is given by <span class="math notranslate nohighlight">\(\boldsymbol{\phi}(x_i)\)</span> where <span class="math notranslate nohighlight">\(\{x_i\}_{i=1}^{N}\)</span> are the grid points.</p>
+<p>Thus, provided we can efficiently compute the matrices <span class="math notranslate nohighlight">\(\boldsymbol{\Phi}\)</span> and <span class="math notranslate nohighlight">\(Q\)</span> with FEniCS we can efficiently compute the differene between the covariances required.</p>
+<p>In order to compute <span class="math notranslate nohighlight">\(\Sigma_1\)</span> and the matrix <span class="math notranslate nohighlight">\(C_f\)</span> needed for <span class="math notranslate nohighlight">\(Q\)</span> we will need to be able to construct a covariance matrix on a grid for a given cov function. We thus will first create a function <a class="reference internal" href="statFEM_analysis.html#statFEM_analysis.oneDim.kernMat"><span class="std std-ref">kernMat()</span></a> which assembles the covariance matrix corresponding to the covariance function <code class="docutils literal notranslate"><span class="pre">k</span></code> on a grid <code class="docutils literal notranslate"><span class="pre">grid</span></code>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">statFEM_analysis.oneDim</span> <span class="kn">import</span> <span class="n">kernMat</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title fa fa-exclamation-circle">Note:</p>
+<p>This function takes in two optional boolean arguments <code class="docutils literal notranslate"><span class="pre">parallel</span></code> and <code class="docutils literal notranslate"><span class="pre">translation_inv</span></code>. The first of these specifies whether or not the cov matrix should be computed in parallel and the second specifies whether or not the cov kernel is translation invariant. If it is, the covariance matrix is computed more efficiently using the <code class="docutils literal notranslate"><span class="pre">cdist</span></code> function from scipy.</p>
+</div>
+<p>Let’s quickly test if this function is working, by computing the cov matrix for white noise, which has kernel function <span class="math notranslate nohighlight">\(k(x,y)=\delta(x-y)\)</span>. For a grid of length <span class="math notranslate nohighlight">\(N\)</span> this should be the <span class="math notranslate nohighlight">\(N\times N\)</span> identity matrix.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># set up the kernel function</span>
+<span class="c1"># set up tolerance for comparison</span>
+<span class="n">tol</span> <span class="o">=</span> <span class="mf">1e-16</span>
+<span class="k">def</span> <span class="nf">k</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">tol</span><span class="p">:</span>
+        <span class="c1"># x == y within the tolerance</span>
+        <span class="k">return</span> <span class="mf">1.0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># x != y within the tolerance</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+<span class="c1"># set up grid</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">21</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">N</span><span class="p">)</span>
+<span class="n">K</span> <span class="o">=</span> <span class="n">kernMat</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">grid</span><span class="p">,</span><span class="kc">True</span><span class="p">,</span><span class="kc">False</span><span class="p">)</span> <span class="c1"># parallel mode</span>
+
+<span class="c1"># check that this is the N x N identity matrix</span>
+<span class="k">assert</span> <span class="p">(</span><span class="n">K</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">N</span><span class="p">))</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p>We now create a function <a class="reference internal" href="statFEM_analysis.html#statFEM_analysis.oneDim.BigPhiMat"><span class="std std-ref">BigPhiMat()</span></a> to utilise FEniCS to efficiently compute the matrix <span class="math notranslate nohighlight">\(\boldsymbol{\Phi}\)</span> defined above.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">statFEM_analysis.oneDim</span> <span class="kn">import</span> <span class="n">BigPhiMat</span>
+</pre></div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">BigPhiMat</span></code> takes in two arguments: <code class="docutils literal notranslate"><span class="pre">J</span></code>, which controls the FE mesh size (<span class="math notranslate nohighlight">\(h=1/J\)</span>), and <code class="docutils literal notranslate"><span class="pre">grid</span></code> which is the grid in the definition of <span class="math notranslate nohighlight">\(\boldsymbol{\Phi}\)</span>. <code class="docutils literal notranslate"><span class="pre">BigPhiMat</span></code> returns <span class="math notranslate nohighlight">\(\boldsymbol{\Phi}\)</span> as a sparse <code class="docutils literal notranslate"><span class="pre">csr_matrix</span></code> for memory efficiency.</p>
+<div class="admonition note">
+<p class="admonition-title fa fa-exclamation-circle">Note:</p>
+<p>Since FEniCS works with the FE functions corresponding to all the FE dofs and our matrix <span class="math notranslate nohighlight">\(\Sigma_2\)</span> only uses the FE functions corresponding to non-boundary dofs we need to account for this in the code. See the source code for <code class="docutils literal notranslate"><span class="pre">BigPhiMat</span></code> to see how this is done.</p>
+</div>
+<p>We now create a function <a class="reference internal" href="statFEM_analysis.html#statFEM_analysis.oneDim.cov_assembler"><span class="std std-ref">cov_asssembler()</span></a> which assembles the approximate FEM covariance matrix on the grid.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">statFEM_analysis.oneDim</span> <span class="kn">import</span> <span class="n">cov_assembler</span>
+</pre></div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">cov_assembler</span></code> takes in several arguments which are explained below:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">J</span></code>: controls the FE mesh size (<span class="math notranslate nohighlight">\(h=1/J)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">k_f</span></code>: the covariance function for the forcing <span class="math notranslate nohighlight">\(f\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">grid</span></code>: the reference grid where the FEM cov matrix should be computed on</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">parallel</span></code>: boolean argument indicating whether the intermediate computation of <span class="math notranslate nohighlight">\(C_f\)</span> should be done in parallel</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">translation_inv</span></code>: boolean argument indicating whether the intermediate computation of <span class="math notranslate nohighlight">\(C_f\)</span> should be computed assuming <code class="docutils literal notranslate"><span class="pre">k_f</span></code> is translation invariant or not</p></li>
+</ul>
+<p>As a quick demonstration that the code is working, we will compute the true and approximate covariance matrices for a relatively coarse grid. We first set up functions to compute the true covariance matrix <span class="math notranslate nohighlight">\(\Sigma_1\)</span>:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># set up kernel functions for f</span>
+<span class="n">l_f</span> <span class="o">=</span> <span class="mf">0.4</span>
+<span class="n">σ_f</span> <span class="o">=</span> <span class="mf">0.1</span>
+
+<span class="k">def</span> <span class="nf">c_f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">σ_f</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">l_f</span><span class="o">**</span><span class="mi">2</span><span class="p">)))</span>
+
+<span class="c1"># translation invariant form of c_f</span>
+<span class="k">def</span> <span class="nf">k_f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">σ_f</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">l_f</span><span class="o">**</span><span class="mi">2</span><span class="p">)))</span>
+
+<span class="c1"># use quadrature for the true cov function</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">integrate</span>
+<span class="c1"># compute inner integral over t</span>
+<span class="k">def</span> <span class="nf">η</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="n">y</span><span class="p">):</span>
+    <span class="n">I_1</span> <span class="o">=</span> <span class="n">integrate</span><span class="o">.</span><span class="n">quad</span><span class="p">(</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">t</span><span class="o">*</span><span class="n">c_f</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="n">t</span><span class="p">),</span><span class="mf">0.0</span><span class="p">,</span><span class="n">y</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">I_2</span> <span class="o">=</span> <span class="n">integrate</span><span class="o">.</span><span class="n">quad</span><span class="p">(</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">t</span><span class="p">)</span><span class="o">*</span><span class="n">c_f</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="n">t</span><span class="p">),</span><span class="n">y</span><span class="p">,</span><span class="mf">1.0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">*</span><span class="n">I_1</span> <span class="o">+</span> <span class="n">y</span><span class="o">*</span><span class="n">I_2</span>
+
+<span class="c1"># use this function η and compute the outer integral over w</span>
+<span class="k">def</span> <span class="nf">c_u</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span>
+    <span class="n">I_1</span> <span class="o">=</span> <span class="n">integrate</span><span class="o">.</span><span class="n">quad</span><span class="p">(</span><span class="k">lambda</span> <span class="n">w</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">w</span><span class="p">)</span><span class="o">*</span><span class="n">η</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="n">y</span><span class="p">),</span><span class="n">x</span><span class="p">,</span><span class="mf">1.0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">I_2</span> <span class="o">=</span> <span class="n">integrate</span><span class="o">.</span><span class="n">quad</span><span class="p">(</span><span class="k">lambda</span> <span class="n">w</span><span class="p">:</span> <span class="n">w</span><span class="o">*</span><span class="n">η</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="n">y</span><span class="p">),</span><span class="mf">0.0</span><span class="p">,</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">*</span><span class="n">I_1</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">I_2</span>
+</pre></div>
+</div>
+</div>
+<p>With these functions we can now compute <span class="math notranslate nohighlight">\(\Sigma_1\)</span> as follows:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># set up a reference grid</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">21</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">N</span><span class="p">)</span>
+
+<span class="c1"># compute Σ_1 using c_u</span>
+<span class="n">Σ_1</span> <span class="o">=</span> <span class="n">kernMat</span><span class="p">(</span><span class="n">c_u</span><span class="p">,</span><span class="n">grid</span><span class="p">,</span><span class="kc">True</span><span class="p">,</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>We now use our function <code class="docutils literal notranslate"><span class="pre">cov_assembler</span></code> to compute <span class="math notranslate nohighlight">\(\Sigma_2\)</span>:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">J</span> <span class="o">=</span> <span class="mi">20</span> <span class="c1"># choose a FE mesh size</span>
+<span class="n">Σ_2</span> <span class="o">=</span> <span class="n">cov_assembler</span><span class="p">(</span><span class="n">J</span><span class="p">,</span><span class="n">k_f</span><span class="p">,</span><span class="n">grid</span><span class="p">,</span><span class="kc">False</span><span class="p">,</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Let’s plot heatmaps of both <span class="math notranslate nohighlight">\(\Sigma_1, \Sigma_2\)</span> to compare:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vmin</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">Σ_1</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">Σ_2</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+<span class="n">vmax</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">Σ_1</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">Σ_2</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">gridspec_kw</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">width_ratios</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mf">0.2</span><span class="p">]))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">Σ_1</span><span class="p">,</span><span class="n">cbar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">annot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">xticklabels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">yticklabels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">cmap</span><span class="o">=</span><span class="n">cm</span><span class="o">.</span><span class="n">viridis</span><span class="p">,</span>
+                <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\Sigma_1$&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">Σ_2</span><span class="p">,</span><span class="n">cbar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">annot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">xticklabels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">yticklabels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">cmap</span><span class="o">=</span><span class="n">cm</span><span class="o">.</span><span class="n">viridis</span><span class="p">,</span>
+                <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\Sigma_2$&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">axs</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">([</span><span class="n">Σ_1</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">Σ_2</span><span class="o">.</span><span class="n">max</span><span class="p">()])]</span><span class="o">.</span><span class="n">collections</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/00_oneDim_39_0.png" src="_images/00_oneDim_39_0.png" />
+</div>
+</div>
+<p>Even with a relatively coarse reference grid and a relatively coarse FE space it looks as if the approximate FEM covariance is quite similar to the true covariance matrix as can be seen from the heatmaps above. Let’s also check how similar they are by utilising <code class="docutils literal notranslate"><span class="pre">np.linalg.norm</span></code> to compute the relative percentage difference:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Relative percentage difference is: </span><span class="si">%.2f</span><span class="s2">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="mi">100</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">Σ_1</span><span class="o">-</span><span class="n">Σ_2</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">Σ_1</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Relative percentage difference is: 0.68%
+</pre></div></div>
+</div>
+</section>
+<section id="Posterior-from-incorporating-sensor-readings">
+<h3>Posterior from incorporating sensor readings<a class="headerlink" href="#Posterior-from-incorporating-sensor-readings" title="Permalink to this headline"></a></h3>
+<p>Denote by <span class="math notranslate nohighlight">\(\nu_{i}=\mathcal{N}(m_{i},\Sigma_{i})\)</span>, where <span class="math notranslate nohighlight">\(i\)</span> is either the symbol <span class="math notranslate nohighlight">\(\star\)</span> or <span class="math notranslate nohighlight">\(h\)</span>, the true and statFEM prior respectively. When we take <span class="math notranslate nohighlight">\(u\sim\nu_{i}\)</span> as our prior, the resulting posterior after incorporating the noisy sensor readings <span class="math notranslate nohighlight">\(\mathbf{v}\)</span> at the locations <span class="math notranslate nohighlight">\(\{y_{j}\}_{j=1}^{s}\)</span> is given by:</p>
+<div class="math notranslate nohighlight">
+\[u|\mathbf{v}\sim\mathcal{N}\left(m_{u|\mathbf{v}}^{(i)},\Sigma_{u|\mathbf{v}}^{(i)}\right)\]</div>
+<p>where we have:</p>
+<div class="math notranslate nohighlight">
+\[m_{u|\mathbf{v}}^{(i)}=m_{i} + \Sigma_{i}S^{\dagger}(\epsilon^{2}I+S\Sigma_{i}S^{\dagger})^{-1}(\mathbf{v}-Sm_{i})\]</div>
+<div class="math notranslate nohighlight">
+\[\Sigma_{u|\mathbf{v}}^{(i)}=\Sigma_{i} - \Sigma_{i}S^{\dagger}(\epsilon^{2}I+S\Sigma_{i}S^{\dagger})^{-1}S\Sigma_{i}\]</div>
+<p>where <span class="math notranslate nohighlight">\(S\)</span> is the operator which maps a function <span class="math notranslate nohighlight">\(g\)</span> to the vector <span class="math notranslate nohighlight">\(\left(g(y_1),\cdots,g(y_s)\right)^{T}\)</span>.</p>
+<p>For brevity we will denote the <span class="math notranslate nohighlight">\(s\times s\)</span> matrix which appears above as <span class="math notranslate nohighlight">\(B_{\epsilon,i}:=\epsilon^{2}I+S\Sigma_{i}S^{\dagger}=\epsilon^{2}I+C_{Y,i}\)</span> where we have also defined <span class="math notranslate nohighlight">\(C_{Y,i}:=S\Sigma_{i}S^{\dagger}\)</span>. This matrix has <span class="math notranslate nohighlight">\(pq\)</span><em>-th</em> entry <span class="math notranslate nohighlight">\(c^{(i)}(y_{p},y_{q})\)</span> where <span class="math notranslate nohighlight">\(c^{(i)}\)</span> is the covariance function associated with the covariance operator <span class="math notranslate nohighlight">\(\Sigma_{i}\)</span>.</p>
+</section>
+<section id="Posterior-mean">
+<h3>Posterior mean<a class="headerlink" href="#Posterior-mean" title="Permalink to this headline"></a></h3>
+<p>Thus, our posterior mean in both cases has the form:</p>
+<div class="math notranslate nohighlight">
+\[m^{(i)}_{u|\mathbf{v}}(x)=m_{i}(x)+\sum_{p,q=1}^{s}c^{(i)}(x,y_{p})\left(B_{\epsilon,i}^{-1}\right)_{pq}(v_{q}-m_{i}(y_{q}))\]</div>
+<p>Note that this can be expressed as:</p>
+<div class="math notranslate nohighlight">
+\[m^{(i)}_{u|\mathbf{v}}(x)=m_{i}(x) - \mathbf{c}^{(i)}(x)^{T}B_{\epsilon,i}^{-1}(\mathbf{m}^{(i)}-\mathbf{v})\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{m}^{(i)}:=Sm_{i}=(m_{i}(y_1),\cdots,m_{i}(y_s))^{T}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{c}^{(i)}(x):=(c^{(i)}(x,y_1),\cdots,c^{(i)}(x,y_s))^{T}\)</span>.</p>
+<p>Thus, we require a function to evaluate the posterior means. We will thus create a function <a class="reference internal" href="statFEM_analysis.html#statFEM_analysis.oneDim.m_post"><span class="std std-ref">m_post()</span></a> which evaluates the posterior means.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">statFEM_analysis.oneDim</span> <span class="kn">import</span> <span class="n">m_post</span>
+</pre></div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">m_post</span></code> takes in several arguments which are explained below:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">x</span></code>: point where the posterior mean will be evaluated</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">m</span></code>: function which computes the prior mean at a given point y</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">c</span></code>: function which returns the vector (c(x,y)) for y in Y (note: c is the prior covariance function)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">v</span></code>: vector of noisy sensor readings</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Y</span></code>: vector of sensor locations</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">B</span></code>: the matrix <span class="math notranslate nohighlight">\(\epsilon^{2}I+C_Y\)</span> to be inverted in order to obtain the posterior</p></li>
+</ul>
+<p>As a quick test to see if the code is working, note that if we choose <span class="math notranslate nohighlight">\(\mathbf{c}\)</span> above to be constant at the <span class="math notranslate nohighlight">\(j\)</span><em>-th</em> standard basis vector and if we take <span class="math notranslate nohighlight">\(B\)</span> to be the identity matrix then we should obtain the function <span class="math notranslate nohighlight">\(m(x)-m(y_j)+v_j\)</span>. This will give us the <span class="math notranslate nohighlight">\(v_j\)</span> when evaluated at <span class="math notranslate nohighlight">\(y_j\)</span>. We will test that this is indeed what we get:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># choose several prior mean functions to try</span>
+<span class="n">m_list</span> <span class="o">=</span> <span class="p">[</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0</span><span class="o">-</span><span class="n">x</span><span class="p">),</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">x</span><span class="p">)]</span>
+
+<span class="c1"># set up Y and B and v:</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.99</span><span class="p">,</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">s</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+<span class="c1"># test that we get v_j when evaluated at y_j (and when c is set to be j-th basis vector)</span>
+<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="c1"># define c to be j-th basis vector for all x</span>
+    <span class="k">def</span> <span class="nf">c</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="n">c_vect</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="n">c_vect</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="k">return</span> <span class="n">c_vect</span>
+
+    <span class="c1"># evaluate the posterior mean at jth sensor location and check that this is v_j</span>
+    <span class="c1"># (this check is done up to a tolerance tol)</span>
+    <span class="n">tol</span> <span class="o">=</span> <span class="mf">1e-15</span>
+    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">m_list</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">m_post</span><span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">j</span><span class="p">],</span><span class="n">m</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">v</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">B</span><span class="p">)</span> <span class="o">-</span> <span class="n">v</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">tol</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Difference-between-posterior-means">
+<h3>Difference between posterior means<a class="headerlink" href="#Difference-between-posterior-means" title="Permalink to this headline"></a></h3>
+<p>In order to compute the difference between the posterior means we require some more code.</p>
+<p>Firstly, we will need code to generate samples from a GP with mean <span class="math notranslate nohighlight">\(m\)</span> and cov function <span class="math notranslate nohighlight">\(k\)</span> on a grid. We write the function <a class="reference internal" href="statFEM_analysis.html#statFEM_analysis.oneDim.sample_gp"><span class="std std-ref">sample_gp()</span></a> for this purpose.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">statFEM_analysis.oneDim</span> <span class="kn">import</span> <span class="n">sample_gp</span>
+</pre></div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">sample_gp</span></code> takes in several arguments which are explained below:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">n_sim</span></code>: number of trajectories to be sampled</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">m</span></code>: mean function for the GP</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">k</span></code>: cov function for the GP</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">grid</span></code>: grid of points on which to sample the GP</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">par</span></code>: boolean argument indicating whether the computation of the cov matrix should be done in parallel</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">trans</span></code>: boolean argument indicating whether the computation of the cov matrix should be computed assuming <code class="docutils literal notranslate"><span class="pre">k</span></code> is translation invariant or not</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tol</span></code>: controls the size of the tiny diagonal perturbation added to cov matrix to ensure it is strictly positive definite (defaults to <code class="docutils literal notranslate"><span class="pre">1e-9</span></code>)</p></li>
+</ul>
+<p>As a quick demonstration that the code is working lets generate 10 trajectories of white noise, using the kernel <code class="docutils literal notranslate"><span class="pre">k</span></code> from one of the previous tests:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># set up grid to sample on</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">51</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">N</span><span class="p">)</span>
+
+<span class="c1"># set up mean</span>
+<span class="k">def</span> <span class="nf">m</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mf">0.0</span>
+
+<span class="c1"># sample the GP</span>
+<span class="n">n_sim</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">235</span><span class="p">)</span>
+<span class="n">samples</span> <span class="o">=</span> <span class="n">sample_gp</span><span class="p">(</span><span class="n">n_sim</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">grid</span><span class="p">,</span><span class="kc">True</span><span class="p">,</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span><span class="n">samples</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$x$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;White noise trajectories&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/00_oneDim_54_0.png" src="_images/00_oneDim_54_0.png" />
+</div>
+</div>
+<p>The next bit of code we require is code to generate noisy sensor readings from our system. We write the function <a class="reference internal" href="statFEM_analysis.html#statFEM_analysis.oneDim.gen_sensor"><span class="std std-ref">gen_sensor()</span></a> for this purpose.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">statFEM_analysis.oneDim</span> <span class="kn">import</span> <span class="n">gen_sensor</span>
+</pre></div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">gen_sensor</span></code> takes in several arguments which are explained below:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ϵ</span></code>: controls the amount of sensor noise</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">m</span></code>: mean function for the forcing f</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">k</span></code>: cov function for the forcing f</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Y</span></code>: vector of sensor locations</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">u_quad</span></code>: function to accurately compute the solution u given a realisation of the forcing f</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">grid</span></code>: grid where forcing f is sampled on</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">par</span></code>: boolean argument indicating whether the computation of the forcing cov matrix should be done in parallel</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">trans</span></code>: boolean argument indicating whether the computation of the forcing cov matrix should be computed assuming <code class="docutils literal notranslate"><span class="pre">k</span></code> is translation invariant or not</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tol</span></code>: controls the size of the tiny diagonal perturbation added to forcing cov matrix to ensure it is strictly positive definite (defaults to <code class="docutils literal notranslate"><span class="pre">1e-9</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">maxiter</span></code>: parameter which controls the accuracy of the quadrature used in u_quad (defaults to <code class="docutils literal notranslate"><span class="pre">50</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">require_f</span></code> : boolean argument indicating whether or not to also return the realisation of the forcing f (defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p></li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title fa fa-exclamation-circle">Important:</p>
+<p>The function <code class="docutils literal notranslate"><span class="pre">u_quad</span></code> which is passed to <code class="docutils literal notranslate"><span class="pre">gen_sensor</span></code> is assumed to compute the solution using quadrature. This must be done in a particular way and will be demonstrated below. It is also important to choose a fine enough grid for the argument <code class="docutils literal notranslate"><span class="pre">grid</span></code> passed to <code class="docutils literal notranslate"><span class="pre">gen_sensor</span></code> as this affects the solution accuracy.</p>
+</div>
+<p>Let’s demonstrate that this code is working. To start we note that due to the form of the Green’s function for our problem, we can express the solution <span class="math notranslate nohighlight">\(u\)</span> in terms of the forcing <span class="math notranslate nohighlight">\(f\)</span> as follows:</p>
+<div class="math notranslate nohighlight">
+\[u(x)=\int_{0}^{1}G(x,y)f(y)\mathrm{d}y=(1-x)\int_{0}^{x}yf(y)\mathrm{d}y+x\int_{x}^{1}(1-y)f(y)\mathrm{d}y\]</div>
+<p>We will use this observation when setting up <code class="docutils literal notranslate"><span class="pre">u_quad</span></code> below. We now generate <span class="math notranslate nohighlight">\(s=20\)</span> sensor observations with the sensors equally spaced in the interval <span class="math notranslate nohighlight">\((0.01,0.99)\)</span>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># set up mean and kernel functions for the forcing f</span>
+<span class="n">l_f</span> <span class="o">=</span> <span class="mf">0.4</span>
+<span class="n">σ_f</span> <span class="o">=</span> <span class="mf">0.1</span>
+
+<span class="k">def</span> <span class="nf">m_f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mf">1.0</span>
+
+<span class="k">def</span> <span class="nf">k_f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">σ_f</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">l_f</span><span class="o">**</span><span class="mi">2</span><span class="p">)))</span>
+
+<span class="c1"># set up sensor grid and sensor noise level</span>
+<span class="n">s</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.99</span><span class="p">,</span><span class="n">s</span><span class="p">)</span>
+<span class="n">ϵ</span> <span class="o">=</span> <span class="mf">0.1</span>
+
+<span class="c1"># set up grid to simulate f on</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">40</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># set up u_quad</span>
+<span class="k">def</span> <span class="nf">u_quad</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">maxiter</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
+    <span class="n">I_1</span> <span class="o">=</span> <span class="n">integrate</span><span class="o">.</span><span class="n">quadrature</span><span class="p">(</span><span class="k">lambda</span> <span class="n">w</span><span class="p">:</span> <span class="n">w</span><span class="o">*</span><span class="n">f</span><span class="p">(</span><span class="n">w</span><span class="p">),</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span><span class="n">maxiter</span><span class="o">=</span><span class="n">maxiter</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">I_2</span> <span class="o">=</span> <span class="n">integrate</span><span class="o">.</span><span class="n">quadrature</span><span class="p">(</span><span class="k">lambda</span> <span class="n">w</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">w</span><span class="p">)</span><span class="o">*</span><span class="n">f</span><span class="p">(</span><span class="n">w</span><span class="p">),</span><span class="n">x</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span><span class="n">maxiter</span><span class="o">=</span><span class="n">maxiter</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">I_1</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">I_2</span>
+
+<span class="c1"># generate the sensor observations</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">534</span><span class="p">)</span>
+<span class="n">v_dat</span><span class="p">,</span><span class="n">f_sim</span> <span class="o">=</span> <span class="n">gen_sensor</span><span class="p">(</span><span class="n">ϵ</span><span class="p">,</span><span class="n">m_f</span><span class="p">,</span><span class="n">k_f</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">u_quad</span><span class="p">,</span><span class="n">grid</span><span class="p">,</span><span class="n">maxiter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span><span class="n">require_f</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Plotting these sensor observations with the solution for this particular realisation of the forcing gives:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot the sensor readings as well as the true mean</span>
+<span class="n">x_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">interp1d</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span><span class="n">f_sim</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;cubic&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">u</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">u_quad</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">maxiter</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">u</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">x_range</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span><span class="n">v_dat</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;noisy sensor observations&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_range</span><span class="p">,</span><span class="n">res</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;solution&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$x$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Noisy sensor observations&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/00_oneDim_63_0.png" src="_images/00_oneDim_63_0.png" />
+</div>
+</div>
+<p>The next bit of code needed in order to compute the difference between the posterior means is a way of comparing the two different mean functions. One possible solution is to overload the <code class="docutils literal notranslate"><span class="pre">UserExpression</span></code> class in FEniCS to create custom FEniCS expressions from user defined functions. This will allow us to use our function <code class="docutils literal notranslate"><span class="pre">m_post</span></code> together with <code class="docutils literal notranslate"><span class="pre">errornorm</span></code> from FEniCS to compute the L2 norm of the difference. We thus, create a class called
+<a class="reference internal" href="statFEM_analysis.html#statFEM_analysis.oneDim.MyExpression"><span class="std std-ref">MyExpression()</span></a>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">statFEM_analysis.oneDim</span> <span class="kn">import</span> <span class="n">MyExpression</span>
+</pre></div>
+</div>
+</div>
+<p>We will now demonstrate how this works, building on the sensor observation example above.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># set up the true prior mean and the true prior cov needed for the true posterior</span>
+<span class="n">μ_true</span> <span class="o">=</span> <span class="n">Expression</span><span class="p">(</span><span class="s1">&#39;0.5*x[0]*(1-x[0])&#39;</span><span class="p">,</span><span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">C_true_s</span> <span class="o">=</span> <span class="n">kernMat</span><span class="p">(</span><span class="n">c_u</span><span class="p">,</span><span class="n">Y</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+<span class="k">def</span> <span class="nf">c_u_vect</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">c_u</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y_i</span><span class="p">)</span> <span class="k">for</span> <span class="n">y_i</span> <span class="ow">in</span> <span class="n">Y</span><span class="p">])</span>
+<span class="c1"># set up matrix B for posterior</span>
+<span class="n">B_true</span> <span class="o">=</span> <span class="p">(</span><span class="n">ϵ</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">+</span> <span class="n">C_true_s</span>
+
+<span class="c1"># compute the true posterior mean</span>
+<span class="k">def</span> <span class="nf">true_post_mean</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">m_post</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">μ_true</span><span class="p">,</span><span class="n">c_u_vect</span><span class="p">,</span><span class="n">v_dat</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">B_true</span><span class="p">)</span>
+
+<span class="c1"># set up MyExpression object</span>
+<span class="n">μ_true_post</span> <span class="o">=</span> <span class="n">MyExpression</span><span class="p">()</span>
+<span class="n">μ_true_post</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">true_post_mean</span>
+<span class="n">μ_true_post</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Coefficient(FunctionSpace(None, FiniteElement(&#39;Lagrange&#39;, None, 2)), 44)
+</pre></div></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">μ_true_post</span></code> now works like a usual FEniCS expression/function. We can evaluate it at a point:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">μ_true_post</span><span class="p">(</span><span class="mf">0.3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="math notranslate nohighlight">
+$$0.10740217262611212$$</div></div>
+</div>
+<p>Or even evaluate it on the nodes of a FEniCS mesh:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">μ_true_post</span><span class="o">.</span><span class="n">compute_vertex_values</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">UnitIntervalMesh</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([0.        , 0.08179325, 0.12278251, 0.12279555, 0.08181789,
+       0.        ])
+</pre></div></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title fa fa-exclamation-circle">Warning:</p>
+<p>A mesh needs to be passed when using <code class="docutils literal notranslate"><span class="pre">MyExpression</span></code> objects with certain FEniCS methods</p>
+</div>
+<p>We now require code which will create the matrix <span class="math notranslate nohighlight">\(C_Y,h\)</span> and the function <span class="math notranslate nohighlight">\(\mathbf{c}^{(h)}\)</span> required for the statFEM posterior mean. We will create the function <a class="reference internal" href="statFEM_analysis.html#statFEM_analysis.oneDim.fem_cov_assembler_post"><span class="std std-ref">fem_cov_assembler_post()</span></a> for this purpose.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">statFEM_analysis.oneDim</span> <span class="kn">import</span> <span class="n">fem_cov_assembler_post</span>
+</pre></div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">fem_cov_assembler_post</span></code> takes in several arguments which are explained below:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">J</span></code>: controls the FE mesh size (<span class="math notranslate nohighlight">\(h=1/J\)</span>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">k_f</span></code>: the covariance function for the forcing <span class="math notranslate nohighlight">\(f\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Y</span></code>: vector of sensor locations</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">parallel</span></code>: boolean argument indicating whether the computation of the forcing cov mat should be done in parallel</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">translation_inv</span></code>: boolean argument indicating whether the computation of the forcing cov mat should be computed assuming <code class="docutils literal notranslate"><span class="pre">k_f</span></code> is translation invariant or not</p></li>
+</ul>
+<p>With all of this code in place we can now finally write the function <a class="reference internal" href="statFEM_analysis.html#statFEM_analysis.oneDim.m_post_fem_assembler"><span class="std std-ref">m_post_fem_assembler()</span></a> which will assemble the statFEM posterior mean function.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">statFEM_analysis.oneDim</span> <span class="kn">import</span> <span class="n">m_post_fem_assembler</span>
+</pre></div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">m_post_fem_assembler</span></code> takes in several arguments which are explained below:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">J</span></code>: controls the FE mesh size (<span class="math notranslate nohighlight">\(h=1/J\)</span>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">f_bar</span></code>: the mean function for the forcing <span class="math notranslate nohighlight">\(f\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">k_f</span></code>: the covariance function for the forcing <span class="math notranslate nohighlight">\(f\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ϵ</span></code>: controls the amount of sensor noise</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Y</span></code>: vector of sensor locations</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">v_dat</span></code>: vector of noisy sensor observations</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">par</span></code>: boolean argument passed to <code class="docutils literal notranslate"><span class="pre">fem_cov_assembler_post</span></code>’s argument <code class="docutils literal notranslate"><span class="pre">parallel</span></code> (defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">trans</span></code>: boolean argument passed to <code class="docutils literal notranslate"><span class="pre">fem_cov_assembler_post</span></code>’s argument <code class="docutils literal notranslate"><span class="pre">translation_inv</span></code> (defaults to <code class="docutils literal notranslate"><span class="pre">True</span></code>)</p></li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title fa fa-exclamation-circle">Important:</p>
+<p><code class="docutils literal notranslate"><span class="pre">m_post_fem_assembler</span></code> requires <code class="docutils literal notranslate"><span class="pre">f_bar</span></code> to be represented as a FEniCS function/expression/constant.</p>
+</div>
+<p>Let’s quickly check that this function is working.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">J</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">f_bar</span> <span class="o">=</span> <span class="n">Constant</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">m_post_fem</span> <span class="o">=</span> <span class="n">m_post_fem_assembler</span><span class="p">(</span><span class="n">J</span><span class="p">,</span><span class="n">f_bar</span><span class="p">,</span><span class="n">k_f</span><span class="p">,</span><span class="n">ϵ</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">v_dat</span><span class="p">)</span>
+<span class="c1"># compute posterior mean at a location x in [0,1]</span>
+<span class="n">x</span> <span class="o">=</span> <span class="mf">0.3</span>
+<span class="n">m_post_fem</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="math notranslate nohighlight">
+$$0.10741625985588846$$</div></div>
+</div>
+<p>Let’s also plot the statFEM posterior mean together with the corresponding statFEM prior mean:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">h</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">J</span>
+<span class="n">m_prior</span> <span class="o">=</span> <span class="n">mean_assembler</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">f_bar</span><span class="p">)</span>
+<span class="n">x_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">y_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">m_post_fem</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">x_range</span><span class="p">])</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">m_prior</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;prior&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_range</span><span class="p">,</span><span class="n">y_range</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;posterior&#39;</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$x$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;statFEM prior and posterior means&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/00_oneDim_83_0.png" src="_images/00_oneDim_83_0.png" />
+</div>
+</div>
+</section>
+<section id="Posterior-covariance">
+<h3>Posterior covariance<a class="headerlink" href="#Posterior-covariance" title="Permalink to this headline"></a></h3>
+<p>From the form of the posterior covariance operators <span class="math notranslate nohighlight">\(\Sigma_{u|\mathbf{v}}^{(i)}\)</span> given in the section <strong>“Posterior from incorporating sensor readings”</strong> we can see that the posterior covariance functions both have the form:</p>
+<div class="math notranslate nohighlight">
+\[c_{u|\mathbf{v}}^{(i)}(x,y) = c^{(i)}(x,y) - \sum_{p,q=1}^{s}c^{(i)}(x,y_p)(B_{\epsilon,i}^{-1})_{pq}c^{(i)}(y_q,y)\]</div>
+<p>Note that this can be expressed as:</p>
+<div class="math notranslate nohighlight">
+\[c_{u|\mathbf{v}}^{(i)}(x,y) = c^{(i)}(x,y) - \mathbf{c}^{(i)}(x)^{T}B_{\epsilon,i}^{-1}\mathbf{c}^{(i)}(y)\]</div>
+<p>where we have utilised the fact that <span class="math notranslate nohighlight">\(c^{(i)}\)</span> are covariance functions and are hence symmetric which allows us to put <span class="math notranslate nohighlight">\(\mathbf{c}^{(i)}(y)=(c^{(i)}(y,y_1),\cdots,c^{(i)}(y,y_s))^{T}=(c^{(i)}(y_1,y),\cdots,c^{(i)}(y_s,y))^{T}\)</span>.</p>
+<p>Thus, we require a function to evalute the posterior covarainces. We will thus create a function <a class="reference internal" href="statFEM_analysis.html#statFEM_analysis.oneDim.c_post"><span class="std std-ref">c_post()</span></a> which evalutes the posterior covariances.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">statFEM_analysis.oneDim</span> <span class="kn">import</span> <span class="n">c_post</span>
+</pre></div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">c_post</span></code> takes in several arguments which are explained below:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">x</span></code>,<code class="docutils literal notranslate"><span class="pre">y</span></code>: points to evaluate the covariance at</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">c</span></code>: function which returns the prior covariance at any given pair <span class="math notranslate nohighlight">\((x,y)\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Y</span></code>: vector of sensor locations</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">B</span></code>: the matrix <span class="math notranslate nohighlight">\(\epsilon^{2}I+C_{Y}\)</span> to be inverted in order to obtain the posterior</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title fa fa-exclamation-circle">Note:</p>
+<p>The function <code class="docutils literal notranslate"><span class="pre">c_post</span></code> will only be used for the true posterior covariances.</p>
+</div>
+</section>
+<section id="Difference-between-posterior-covariances">
+<h3>Difference between posterior covariances<a class="headerlink" href="#Difference-between-posterior-covariances" title="Permalink to this headline"></a></h3>
+<p>In order to compute the difference between the posterior covariances we require some more code. Since we will be comparing the posterior covariances on a fixed reference grid <span class="math notranslate nohighlight">\(\{x_{i}\}_{i=1}^{N}\)</span> we will need to assemble the cov matrices on this grid. I.e. we will require the matrices <span class="math notranslate nohighlight">\(\tilde{C}_{X,i}\)</span> with <span class="math notranslate nohighlight">\(pq\)</span><em>-th</em> entry <span class="math notranslate nohighlight">\(c_{u|\mathbf{v}}^{(i)}(x_{p},x_{q})\)</span> for <span class="math notranslate nohighlight">\(p,q=1,\cdots N\)</span>. For statFEM this matrix can be efficiently assembled by exploiting the form of the
+statFEM prior and posterior covariance functions, i.e. by noting that we have:</p>
+<div class="math notranslate nohighlight">
+\[\tilde{C}_{X,h} = \Sigma_{X} - \Sigma_{XY}B_{\epsilon,h}^{-1}\Sigma_{XY}^{T}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\Sigma_{X}:=\Phi_{X}^{T}Q\Phi_{X}\)</span>, <span class="math notranslate nohighlight">\(\Sigma_{XY}=\Phi_{X}^{T}Q\Phi_{Y}\)</span> and where <span class="math notranslate nohighlight">\(\Phi_{X}\)</span> is a <span class="math notranslate nohighlight">\(J\times N\)</span> matrix whose <span class="math notranslate nohighlight">\(i\)</span><em>-th</em> column is given by <span class="math notranslate nohighlight">\(\phi(x_{i})\)</span> and similarly <span class="math notranslate nohighlight">\(\Phi_{Y}\)</span> is a <span class="math notranslate nohighlight">\(J\times s\)</span> matrix whose <span class="math notranslate nohighlight">\(i\)</span><em>-th</em> column is given by <span class="math notranslate nohighlight">\(\phi(y_{i})\)</span> and <span class="math notranslate nohighlight">\(Q\)</span> is the matrix defined in the section <strong>“Difference between the true prior covariance and the statFEM prior covariance”</strong>.</p>
+<p>Thus, we can use our function <code class="docutils literal notranslate"><span class="pre">BigPhiMat</span></code> to compute <span class="math notranslate nohighlight">\(\tilde{C}_{X,h}\)</span> efficiently. We start by creating the function <a class="reference internal" href="statFEM_analysis.html#statFEM_analysis.oneDim.post_fem_cov_assembler"><span class="std std-ref">post_fem_cov_assembler()</span></a> which assembles the matrices <span class="math notranslate nohighlight">\(\Sigma_{X}, \Sigma_{XY}\)</span>, and <span class="math notranslate nohighlight">\(\Sigma_{Y}:=\Phi_{Y}^{T}Q\Phi_{Y}\)</span> required for the statFEM posterior covariance.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">statFEM_analysis.oneDim</span> <span class="kn">import</span> <span class="n">post_fem_cov_assembler</span>
+</pre></div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">post_fem_cov_assembler</span></code> takes in several arguments which are explained below:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">J</span></code>: controls the FE mesh size (<span class="math notranslate nohighlight">\(h=1/J\)</span>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">k_f</span></code>: the covariance function for the forcing <span class="math notranslate nohighlight">\(f\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">grid</span></code>: the fixed reference grid <span class="math notranslate nohighlight">\(\{x_{i}\}_{i=1}^{N}\)</span> on which to assemble the posterior cov mat</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Y</span></code>: vector of sensor locations.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">parallel</span></code>: boolean argument indicating whether the computation of the forcing cov mat should be done in parallel</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">translation_inv</span></code>: boolean argument indicating whether the computation of the forcing cov mat should be computed assuming <code class="docutils literal notranslate"><span class="pre">k_f</span></code> is translation invariant or not</p></li>
+</ul>
+<p>Finally, we create the function <a class="reference internal" href="statFEM_analysis.html#statFEM_analysis.oneDim.c_post_fem_assembler"><span class="std std-ref">c_post_fem_assembler()</span></a> which assembles the statFEM posterior cov mat on the reference grid using the matrices <code class="docutils literal notranslate"><span class="pre">post_fem_cov_assembler</span></code> returns.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">statFEM_analysis.oneDim</span> <span class="kn">import</span> <span class="n">c_post_fem_assembler</span>
+</pre></div>
+</div>
+</div>
+<p>Let’s quickly demonstrate that this code is working by computing the statFEM posterior covariance matrix on a reference grid and comparing this to the corresponding statFEM prior.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># set up reference grid and J</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">21</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">N</span><span class="p">)</span>
+<span class="n">J</span> <span class="o">=</span> <span class="mi">20</span>
+
+<span class="c1"># get statFEM prior cov mat on this grid</span>
+<span class="n">Σ_prior</span> <span class="o">=</span> <span class="n">cov_assembler</span><span class="p">(</span><span class="n">J</span><span class="p">,</span><span class="n">k_f</span><span class="p">,</span><span class="n">grid</span><span class="p">,</span><span class="kc">False</span><span class="p">,</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># get statFEM posterior cov mat on this grid</span>
+<span class="n">Σ_posterior</span> <span class="o">=</span> <span class="n">c_post_fem_assembler</span><span class="p">(</span><span class="n">J</span><span class="p">,</span><span class="n">k_f</span><span class="p">,</span><span class="n">grid</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">ϵ</span><span class="p">,</span><span class="kc">False</span><span class="p">,</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vmin</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">Σ_prior</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">Σ_posterior</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+<span class="n">vmax</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">Σ_prior</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">Σ_posterior</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">gridspec_kw</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">width_ratios</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mf">0.2</span><span class="p">]))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">Σ_prior</span><span class="p">,</span><span class="n">cbar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">annot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">xticklabels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">yticklabels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">cmap</span><span class="o">=</span><span class="n">cm</span><span class="o">.</span><span class="n">viridis</span><span class="p">,</span>
+                <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s1">&#39;statFEM prior covariance&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">Σ_posterior</span><span class="p">,</span><span class="n">cbar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">annot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">xticklabels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">yticklabels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">cmap</span><span class="o">=</span><span class="n">cm</span><span class="o">.</span><span class="n">viridis</span><span class="p">,</span>
+                <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s1">&#39;statFEM posterior covariance&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">axs</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">([</span><span class="n">Σ_prior</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">Σ_posterior</span><span class="o">.</span><span class="n">max</span><span class="p">()])]</span><span class="o">.</span><span class="n">collections</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/00_oneDim_95_0.png" src="_images/00_oneDim_95_0.png" />
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Notebooks.html" class="btn btn-neutral float-left" title="Reference Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="01_twoDim.html" class="btn btn-neutral float-right" title="Building up tools to analyse a 2-D problem" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Yanni Papandreou.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

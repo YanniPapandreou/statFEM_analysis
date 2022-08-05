@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2-D posterior example (Matern-1/2 covariance) &mdash; statFEM_analysis 0.0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="1-D max prior example (Matern-1/2 covariance)" href="one_dim_matern_prior_max.html" />
+    <link rel="prev" title="2-D prior example (Matern-1/2 covariance)" href="two_dim_matern_prior.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> statFEM_analysis
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="README.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Notebooks.html">Reference Documentation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="scripts.html">Experiments from paper</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="one_dim_matern_prior.html">1-D prior example (Matern-1/2 covariance)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="one_dim_matern_posterior.html">1-D posterior example (Matern-1/2 covariance)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="two_dim_matern_prior.html">2-D prior example (Matern-1/2 covariance)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">2-D posterior example (Matern-1/2 covariance)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="one_dim_matern_prior_max.html">1-D max prior example (Matern-1/2 covariance)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="one_dim_matern_posterior_max.html">1-D max posterior example (Matern-1/2 covariance)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">API Documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">statFEM_analysis</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="scripts.html">Experiments from paper</a> &raquo;</li>
+      <li>2-D posterior example (Matern-1/2 covariance)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/two_dim_matern_posterior.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="d-posterior-example-matern-1-2-covariance">
+<h1>2-D posterior example (Matern-1/2 covariance)<a class="headerlink" href="#d-posterior-example-matern-1-2-covariance" title="Permalink to this headline"></a></h1>
+<p>The script to obtain the posterior results for the two dimensional Poisson equation example in our paper <a class="footnote-reference brackets" href="#footcite-papandreou2021theoretical" id="id1">1</a> (see Section 4.2.2) can be found below:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">from</span> <span class="nn">dolfin</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">set_log_level</span><span class="p">(</span><span class="n">LogLevel</span><span class="o">.</span><span class="n">ERROR</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numba</span>
+
+<span class="kn">from</span> <span class="nn">scipy.linalg</span> <span class="kn">import</span> <span class="n">sqrtm</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+
+<span class="c1"># import required functions from twoDim</span>
+<span class="kn">from</span> <span class="nn">statFEM_analysis.twoDim</span> <span class="kn">import</span> <span class="n">mean_assembler</span><span class="p">,</span> <span class="n">cov_assembler</span><span class="p">,</span> <span class="n">gen_sensor</span><span class="p">,</span> <span class="n">MyExpression</span><span class="p">,</span> <span class="n">m_post_fem_assembler</span><span class="p">,</span> <span class="n">c_post_fem_assembler</span>
+
+<span class="c1"># set up mean and kernel functions</span>
+<span class="n">f_bar</span> <span class="o">=</span> <span class="n">Constant</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+
+<span class="n">σ_f</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">κ</span> <span class="o">=</span> <span class="mi">4</span>
+
+<span class="nd">@numba</span><span class="o">.</span><span class="n">jit</span>
+<span class="k">def</span> <span class="nf">c_f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">σ_f</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">κ</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">))</span>
+
+<span class="nd">@numba</span><span class="o">.</span><span class="n">jit</span>
+<span class="k">def</span> <span class="nf">k_f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">σ_f</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">κ</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+<span class="nd">@numba</span><span class="o">.</span><span class="n">jit</span>
+<span class="k">def</span> <span class="nf">m_f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mf">1.0</span>
+
+<span class="n">N</span> <span class="o">=</span> <span class="mi">41</span>
+<span class="n">x_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">N</span><span class="p">)</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">x_range</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">x_range</span><span class="p">])</span>
+
+<span class="n">ϵ</span> <span class="o">=</span> <span class="mf">0.001</span>
+
+<span class="n">s</span> <span class="o">=</span> <span class="mi">25</span>
+<span class="n">s_sqrt</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">s</span><span class="p">)))</span>
+<span class="n">Y_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.99</span><span class="p">,</span><span class="n">s_sqrt</span><span class="p">)</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">Y_range</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">Y_range</span><span class="p">])</span>
+<span class="n">J_fine</span> <span class="o">=</span> <span class="mi">120</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Started generating sensor data.&quot;</span><span class="p">)</span>
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">v_dat</span> <span class="o">=</span> <span class="n">gen_sensor</span><span class="p">(</span><span class="n">ϵ</span><span class="p">,</span><span class="n">m_f</span><span class="p">,</span><span class="n">k_f</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">J_fine</span><span class="p">,</span><span class="kc">False</span><span class="p">,</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Finished generating sensor data.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;time elapsed: {end - start}&quot;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">fem_prior</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">f_bar</span><span class="p">,</span><span class="n">k_f</span><span class="p">,</span><span class="n">grid</span><span class="p">):</span>
+    <span class="n">J</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">h</span><span class="p">))</span>
+    <span class="n">μ</span> <span class="o">=</span> <span class="n">mean_assembler</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">f_bar</span><span class="p">)</span>
+    <span class="n">Σ</span> <span class="o">=</span> <span class="n">cov_assembler</span><span class="p">(</span><span class="n">J</span><span class="p">,</span><span class="n">k_f</span><span class="p">,</span><span class="n">grid</span><span class="p">,</span><span class="kc">False</span><span class="p">,</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">μ</span><span class="p">,</span><span class="n">Σ</span>
+
+<span class="k">def</span> <span class="nf">fem_posterior</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">f_bar</span><span class="p">,</span><span class="n">k_f</span><span class="p">,</span><span class="n">ϵ</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">v_dat</span><span class="p">,</span><span class="n">grid</span><span class="p">):</span>
+    <span class="n">J</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">h</span><span class="p">))</span>
+    <span class="n">m_post_fem</span> <span class="o">=</span> <span class="n">m_post_fem_assembler</span><span class="p">(</span><span class="n">J</span><span class="p">,</span><span class="n">f_bar</span><span class="p">,</span><span class="n">k_f</span><span class="p">,</span><span class="n">ϵ</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">v_dat</span><span class="p">)</span>
+    <span class="n">μ</span> <span class="o">=</span> <span class="n">MyExpression</span><span class="p">()</span>
+    <span class="n">μ</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">m_post_fem</span>
+    <span class="n">Σ</span> <span class="o">=</span> <span class="n">c_post_fem_assembler</span><span class="p">(</span><span class="n">J</span><span class="p">,</span><span class="n">k_f</span><span class="p">,</span><span class="n">grid</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">ϵ</span><span class="p">,</span><span class="kc">False</span><span class="p">,</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">μ</span><span class="p">,</span><span class="n">Σ</span>
+
+<span class="k">def</span> <span class="nf">compute_cov_diff</span><span class="p">(</span><span class="n">C1</span><span class="p">,</span><span class="n">C2</span><span class="p">,</span><span class="n">tol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">):</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">C1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="c1">#N = C1.shape[0]</span>
+    <span class="n">C1_sqrt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">sqrtm</span><span class="p">(</span><span class="n">C1</span><span class="p">))</span>
+    <span class="n">rel_error_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">C1_sqrt</span> <span class="o">@</span> <span class="n">C1_sqrt</span> <span class="o">-</span> <span class="n">C1</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">C1</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">rel_error_1</span> <span class="o">&lt;</span> <span class="n">tol</span>
+    
+    <span class="n">C12</span> <span class="o">=</span> <span class="n">C1_sqrt</span> <span class="o">@</span> <span class="n">C2</span> <span class="o">@</span> <span class="n">C1_sqrt</span>
+    <span class="n">C12_sqrt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">sqrtm</span><span class="p">(</span><span class="n">C12</span><span class="p">))</span>
+    <span class="n">rel_error_12</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">C12_sqrt</span> <span class="o">@</span> <span class="n">C12_sqrt</span> <span class="o">-</span> <span class="n">C12</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">C12</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">rel_error_12</span> <span class="o">&lt;</span> <span class="n">tol</span>
+    
+    <span class="n">hSq</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
+    <span class="k">return</span> <span class="n">hSq</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">C1</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">C2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">C12_sqrt</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">W</span><span class="p">(</span><span class="n">μ_1</span><span class="p">,</span><span class="n">μ_2</span><span class="p">,</span><span class="n">Σ_1</span><span class="p">,</span><span class="n">Σ_2</span><span class="p">,</span><span class="n">J_norm</span><span class="p">):</span>
+    <span class="n">mean_error</span> <span class="o">=</span> <span class="n">errornorm</span><span class="p">(</span><span class="n">μ_1</span><span class="p">,</span><span class="n">μ_2</span><span class="p">,</span><span class="s1">&#39;L2&#39;</span><span class="p">,</span><span class="n">mesh</span><span class="o">=</span><span class="n">UnitSquareMesh</span><span class="p">(</span><span class="n">J_norm</span><span class="p">,</span><span class="n">J_norm</span><span class="p">))</span>
+    <span class="n">cov_error</span> <span class="o">=</span> <span class="n">compute_cov_diff</span><span class="p">(</span><span class="n">Σ_1</span><span class="p">,</span><span class="n">Σ_2</span><span class="p">)</span>
+    <span class="n">cov_error</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">cov_error</span><span class="p">))</span>
+    <span class="n">error</span> <span class="o">=</span> <span class="n">mean_error</span> <span class="o">+</span> <span class="n">cov_error</span>
+    <span class="k">return</span> <span class="n">error</span>
+
+<span class="k">def</span> <span class="nf">refine</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">f_bar</span><span class="p">,</span><span class="n">k_f</span><span class="p">,</span><span class="n">ϵ</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">v_dat</span><span class="p">,</span><span class="n">grid</span><span class="p">,</span><span class="n">J_norm</span><span class="p">):</span>
+    <span class="c1"># set up empty lists to hold h-values and errors (this being the ratios)</span>
+    <span class="n">h_range</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># get the statFEM posterior for h and h/2</span>
+    <span class="n">μ_1</span><span class="p">,</span> <span class="n">Σ_1</span> <span class="o">=</span> <span class="n">fem_posterior</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">f_bar</span><span class="p">,</span><span class="n">k_f</span><span class="p">,</span><span class="n">ϵ</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">v_dat</span><span class="p">,</span><span class="n">grid</span><span class="p">)</span>
+    <span class="n">μ_2</span><span class="p">,</span> <span class="n">Σ_2</span> <span class="o">=</span> <span class="n">fem_posterior</span><span class="p">(</span><span class="n">h</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">f_bar</span><span class="p">,</span><span class="n">k_f</span><span class="p">,</span><span class="n">ϵ</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">v_dat</span><span class="p">,</span><span class="n">grid</span><span class="p">)</span>
+    <span class="c1"># compute the distance between these and store in numerator variable</span>
+    <span class="n">numerator</span> <span class="o">=</span> <span class="n">W</span><span class="p">(</span><span class="n">μ_1</span><span class="p">,</span><span class="n">μ_2</span><span class="p">,</span><span class="n">Σ_1</span><span class="p">,</span><span class="n">Σ_2</span><span class="p">,</span><span class="n">J_norm</span><span class="p">)</span>
+    <span class="c1"># succesively refine the mesh by halving and do this n times</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;inner loop&quot;</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">leave</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="c1"># store mean and cov for h/2 in storage for h</span>
+        <span class="n">μ_1</span><span class="p">,</span> <span class="n">Σ_1</span> <span class="o">=</span> <span class="n">μ_2</span><span class="p">,</span> <span class="n">Σ_2</span>
+        <span class="c1"># in storage for h/2 store mean and cov for h/4</span>
+        <span class="n">μ_2</span><span class="p">,</span> <span class="n">Σ_2</span> <span class="o">=</span> <span class="n">fem_posterior</span><span class="p">(</span><span class="n">h</span><span class="o">/</span><span class="mi">4</span><span class="p">,</span><span class="n">f_bar</span><span class="p">,</span><span class="n">k_f</span><span class="p">,</span><span class="n">ϵ</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">v_dat</span><span class="p">,</span><span class="n">grid</span><span class="p">)</span>
+        <span class="c1"># compute the distance between the posteriors for h/2 and h/4</span>
+        <span class="c1"># and store in denominator variable</span>
+        <span class="n">denominator</span> <span class="o">=</span> <span class="n">W</span><span class="p">(</span><span class="n">μ_1</span><span class="p">,</span><span class="n">μ_2</span><span class="p">,</span><span class="n">Σ_1</span><span class="p">,</span><span class="n">Σ_2</span><span class="p">,</span><span class="n">J_norm</span><span class="p">)</span>
+        <span class="c1"># compute the ratio and store in error</span>
+        <span class="n">error</span> <span class="o">=</span> <span class="n">numerator</span><span class="o">/</span><span class="n">denominator</span>
+        <span class="c1"># append the current value of h and the ratio</span>
+        <span class="n">h_range</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+        <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+        <span class="c1"># store denominator in numerator and halve h</span>
+        <span class="n">numerator</span> <span class="o">=</span> <span class="n">denominator</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">h</span><span class="o">/</span><span class="mi">2</span>
+    <span class="c1"># return the list of h-values together with the ratios for these values</span>
+    <span class="k">return</span> <span class="n">h_range</span><span class="p">,</span><span class="n">errors</span>
+
+<span class="n">my_list</span> <span class="o">=</span> <span class="p">[(</span><span class="mf">0.25</span><span class="p">,</span><span class="mi">4</span><span class="p">),(</span><span class="mf">0.2</span><span class="p">,</span><span class="mi">3</span><span class="p">),(</span><span class="mf">0.175</span><span class="p">,</span><span class="mi">3</span><span class="p">),(</span><span class="mf">0.176</span><span class="p">,</span><span class="mi">3</span><span class="p">),(</span><span class="mf">0.177</span><span class="p">,</span><span class="mi">3</span><span class="p">),(</span><span class="mf">0.178</span><span class="p">,</span><span class="mi">3</span><span class="p">),(</span><span class="mf">0.179</span><span class="p">,</span><span class="mi">3</span><span class="p">),(</span><span class="mf">0.18</span><span class="p">,</span><span class="mi">3</span><span class="p">),(</span><span class="mf">0.21</span><span class="p">,</span><span class="mi">3</span><span class="p">),(</span><span class="mf">0.215</span><span class="p">,</span><span class="mi">3</span><span class="p">),(</span><span class="mf">0.1</span><span class="p">,</span><span class="mi">2</span><span class="p">),(</span><span class="mf">0.3</span><span class="p">,</span><span class="mi">4</span><span class="p">),(</span><span class="mf">0.31</span><span class="p">,</span><span class="mi">4</span><span class="p">),(</span><span class="mf">0.315</span><span class="p">,</span><span class="mi">4</span><span class="p">),(</span><span class="mf">0.24</span><span class="p">,</span><span class="mi">3</span><span class="p">),(</span><span class="mf">0.245</span><span class="p">,</span><span class="mi">3</span><span class="p">),(</span><span class="mf">0.14</span><span class="p">,</span><span class="mi">2</span><span class="p">),(</span><span class="mf">0.16</span><span class="p">,</span><span class="mi">2</span><span class="p">),(</span><span class="mf">0.15</span><span class="p">,</span><span class="mi">2</span><span class="p">)]</span>
+<span class="n">J_norm</span> <span class="o">=</span> <span class="mi">40</span>
+
+<span class="n">h_range</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">235</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Starting computation.&quot;</span><span class="p">)</span>
+<span class="n">set_log_level</span><span class="p">(</span><span class="n">LogLevel</span><span class="o">.</span><span class="n">ERROR</span><span class="p">)</span>
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">my_list</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;outer&quot;</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">h_range_tmp</span><span class="p">,</span> <span class="n">errors_tmp</span> <span class="o">=</span> <span class="n">refine</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">f_bar</span><span class="p">,</span><span class="n">k_f</span><span class="p">,</span><span class="n">ϵ</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">v_dat</span><span class="p">,</span><span class="n">grid</span><span class="p">,</span><span class="n">J_norm</span><span class="p">)</span>
+    <span class="n">h_range</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">h_range_tmp</span><span class="p">)</span>
+    <span class="n">errors</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">errors_tmp</span><span class="p">)</span>
+
+<span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Finished computation.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;time elapsed: {end - start}&quot;</span><span class="p">)</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;my_list&#39;</span><span class="p">:</span> <span class="n">my_list</span><span class="p">,</span> <span class="s1">&#39;h_range&#39;</span><span class="p">:</span> <span class="n">h_range</span><span class="p">,</span> <span class="s1">&#39;errors&#39;</span><span class="p">:</span> <span class="n">errors</span><span class="p">,</span> <span class="s1">&#39;ϵ&#39;</span><span class="p">:</span> <span class="n">ϵ</span><span class="p">}</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;results/twoDim_posterior_matern_results&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="docutils container" id="id2">
+<dl class="footnote brackets">
+<dt class="label" id="footcite-papandreou2021theoretical"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>Yanni Papandreou, Jon Cockayne, Mark Girolami, and Andrew B Duncan. Theoretical guarantees for the statistical finite element method. <em>arXiv preprint arXiv:2111.07691</em>, 2021. URL: <a class="reference external" href="https://arxiv.org/abs/2111.07691">https://arxiv.org/abs/2111.07691</a>.</p>
+</dd>
+</dl>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="two_dim_matern_prior.html" class="btn btn-neutral float-left" title="2-D prior example (Matern-1/2 covariance)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="one_dim_matern_prior_max.html" class="btn btn-neutral float-right" title="1-D max prior example (Matern-1/2 covariance)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Yanni Papandreou.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

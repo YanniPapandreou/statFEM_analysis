@@ -13,7 +13,19 @@ The code can be run in a Docker container.
 
 Prerequisites: Docker must be installed and set up following [these instructions](https://docs.docker.com/get-started/).
 
-### Steps:
+### Recommended method (Docker image):
+
+#### Steps:
+- Clone the repo.
+- Navigate to the repo directory: `cd statFEM_analysis`
+- A Docker image is available [online](https://hub.docker.com/r/yannipapandreou/statfem_analysis). To use run the following command, remembering to replace `my-name` with your desired image/container name. 
+```bash
+docker run -ti --name my-name -w /home/fenics -v $(pwd):/home/fenics/shared -p 8888:8888 yannipapandreou/statfem_analysis
+```
+
+#### Alternative method (Building Docker container locally) :
+
+#### Steps:
 - Clone the repo.
 - Navigate to the repo directory: `cd statFEM_analysis`
 - Build the Docker image: `docker build .`
@@ -32,7 +44,7 @@ Prerequisites: Docker must be installed and set up following [these instructions
 
 ## Running the code
 
-Once the Docker image is built and running, you will be in a Docker container running Ubuntu. The recommended way for running code is to either:
+Once the Docker image is pulled/built and running, you will be in a Docker container running Ubuntu. The recommended way for running code is to either:
 
 - Run scripts using `python3 run script.py`
 - Launch a Jupyter lab session using:
@@ -40,6 +52,3 @@ Once the Docker image is built and running, you will be in a Docker container ru
   jupyter lab --ip 0.0.0.0 --port 8888 --no-browser --allow-root
   ```
   - The Jupyter lab session can then be accessed by opening `http://localhost:8888/lab` in your browser and pasting the token written in the Docker container.
-
-```{bibliography} refs.bib
-```

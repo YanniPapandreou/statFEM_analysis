@@ -3,7 +3,7 @@
 
 The script to obtain the prior results for the one dimensional Poisson equation example in our paper :footcite:p:`papandreou2021theoretical` (see Section 4.1.1) can be found below:
 
-.. literalinclude:: scripts/oneDim_prior_matern.py
+.. literalinclude:: oneDim_prior_matern.py
    :language: python
 
 

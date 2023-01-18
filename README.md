@@ -46,7 +46,7 @@ docker run -ti --name my-name -w /home/fenics -v $(pwd):/home/fenics/shared -p 8
 
 ## Running the code
 
-Once the Docker image is built and running, you will be in a Docker container running Ubuntu. The recommended way for running code is to either:
+Once the Docker image is pulled/built and running, you will be in a Docker container running Ubuntu. The recommended way for running code is to either:
 
 - Run scripts using `python3 run script.py`
 - Launch a Jupyter lab session using:

@@ -1,0 +1,8 @@
+joblib==1.1.1
+jupyter==1.0.0
+jupyterlab==3.2.9
+nbdev==1.1.23
+numba==0.53.1
+POT==0.8.2
+seaborn==0.11.2
+tqdm==4.64.1

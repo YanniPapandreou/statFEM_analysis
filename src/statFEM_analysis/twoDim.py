@@ -251,9 +251,6 @@ def cov_assembler(J, k_f, grid, parallel, translation_inv):
     A = assemble(a)
     M = as_backend_type(M).sparray()
     A = as_backend_type(A).sparray()
-    # TODO: remove this commented code
-    # M = csr_matrix(M.getValuesCSR()[::-1], shape=M.size)
-    # A = csr_matrix(A.getValuesCSR()[::-1], shape=A.size)
 
     # extract the submatrices corresponding to the interior dofs
     M = M[interior_dofs, :][:, interior_dofs]
@@ -519,9 +516,6 @@ def fem_cov_assembler_post(J, k_f, Y, parallel, translation_inv):
     A = assemble(a)
     M = as_backend_type(M).sparray()
     A = as_backend_type(A).sparray()
-    # TODO: remove this commented code
-    # M = csr_matrix(M.getValuesCSR()[::-1], shape=M.size)
-    # A = csr_matrix(A.getValuesCSR()[::-1], shape=A.size)
 
     # extract the submatrices corresponding to the interior dofs
     M = M[interior_dofs, :][:, interior_dofs]
@@ -734,9 +728,6 @@ def post_fem_cov_assembler(J, k_f, grid, Y, parallel, translation_inv):
     A = assemble(a)
     M = as_backend_type(M).sparray()
     A = as_backend_type(A).sparray()
-    # TODO: remove this commented code
-    # M = csr_matrix(M.getValuesCSR()[::-1], shape=M.size)
-    # A = csr_matrix(A.getValuesCSR()[::-1], shape=A.size)
 
     # extract the submatrices corresponding to the interior dofs
     M = M[interior_dofs, :][:, interior_dofs]

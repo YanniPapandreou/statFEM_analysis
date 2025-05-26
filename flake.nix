@@ -22,7 +22,7 @@
           pynvim
           rich
           seaborn
-          tqdm
+          # tqdm
         ]
       );
     in
